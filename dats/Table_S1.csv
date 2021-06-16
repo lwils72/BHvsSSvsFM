@@ -1,0 +1,58 @@
+Latitude,Longitude,Top of breakouts (m),Bottom of breakouts (m),SHmax azimuth (degEofN),standard deviation of azimuth (deg),functional uncertainty (deg),Quality,SHmax from Y&H 2013,Reference,Locality or well name,WSM ID if included,Region,Comment and/or well abbreviation within reference,Order number in Jeanne's Results,Sub-Region,Order Number within reference,Order number in v1,Geologic Context,Geologic Context Number,Order number here
+34.4558,-118.9133,124,159,166,14,14,1,-11.05768582,Wilde and Stock [1997],Blinn 3,,EastVenturaTransverse,Bl3 -third regime with CVT1,21,Northridge/East Ventura/Transverse Ranges,33,17,SFV edge,1,1
+34.4333,-118.8317,637,804,48,4,10,1,0.766650127,Wilde and Stock [1997],Hopper 13,,EastVenturaTransverse,H13,23,Northridge/East Ventura/Transverse Ranges,35,19,SFV edge,1,2
+34.4242,-118.8215,893,906,84,3,10,1,3.687914168,Wilde and Stock [1997],Standard 1,,EastVenturaTransverse,St1,25,Northridge/East Ventura/Transverse Ranges,34,20,SFV edge,1,3
+34.4231,-118.7663,246,1027,85,11,11,1,5.158822975,Wilde and Stock [1997],Rancho Temescal,,EastVenturaTransverse,RT,27,Northridge/East Ventura/Transverse Ranges,39,21,SFV edge,1,4
+34.4333,-118.7448,635,866,28,9,10,1,7.462174575,Wilde and Stock [1997],Holser 14-24,,EastVenturaTransverse,Hol,28,Northridge/East Ventura/Transverse Ranges,32,22,SFV edge,1,5
+34.4000,-118.7000,940,940,63,0,10,1,-1.819999948,Wilde and Stock [1997],Carlsberg NL & F 1,,EastVenturaTransverse,NLF,31,Northridge/East Ventura/Transverse Ranges,30,25,SFV edge,1,6
+34.4300,-118.6428,1356,3624,128,28,28,D,4.904266089,Mount and Suppe [1992],Newhall_#77,wsm01009,CA251,MOUNSU90 #V15,32,Northridge/East Ventura/Transverse Ranges,,26,SFV edge,1,7
+34.4133,-118.5797,2897,3964,69,22,22,C,12.32337243,Mount and Suppe [1992],N.L.andF.,wsm01111,CA94,MOUNSU90 #V27,36,Northridge/East Ventura/Transverse Ranges,,28,SFV edge,1,8
+34.4219,-118.5281,1995,2331,38,11,11,B,14.8208398,Mount and Suppe [1992],Georgino_Swa,wsm01118,CA87,MOUNSU90 #V20,38,Northridge/East Ventura/Transverse Ranges,,30,SFV edge,1,9
+34.3226,-118.5090,316,850,46,0.3,10,1,20.88768697,Kerkela and Stock [1996],McCulloch Cascade,,San Fernando Valley,Mission Visco 14,34,Northridge/East Ventura/Transverse Ranges,4,31,SFV edge,1,10
+34.3731,-118.5026,76,326,61,0.3,10,1,-4.351277274,Kerkela and Stock [1996],Chevron Placerita,,San Fernando Valley,USL 6,33,Northridge/East Ventura/Transverse Ranges,10,32,SFV edge,1,11
+34.0603,-118.4119,2432,2576,49,7,10,B,26.69118281,Mount and Suppe [1992],O.S._#2,wsm01117,CA88,MOUNSU90 #V21,41,West Los Angeles Basin,,47,LAB edge,2,12
+34.0554,-118.3902,2440,2657,140,7,10,1,28.10128509,Wilde and Stock [1997],Cresta 1,,WestLosAngeles,Cresta,NaN,West Los Angeles Basin,50,49,LAB edge,2,13
+34.0750,-118.3780,331,435,131,0,10,1,29.96834684,Wilde and Stock [1997],Chevron S-79,,WestLosAngeles,S-79,NaN,West Los Angeles Basin,42,50,LAB edge,2,14
+34.0308,-118.0600,1566,1890,124,5,10,1,-2.782596576,Wilde and Stock [1997],Anita Baldwin 21,,EastLosAngeles,AB21,54,East Los Angeles Basin,53,8,LAB edge,2,15
+34.0138,-118.0533,365,2661,71,19,19,1,-1.355201507,Wilde and Stock [1997],Shepherd Machinery 1,,EastLosAngeles,SM1,NaN,East Los Angeles Basin,67,9,LAB edge,2,16
+33.9946,-118.0420,358,797,78,18,18,1,-1.528974183,Wilde and Stock [1997],Mitchell Energy 4,,EastLosAngeles,ME4,NaN,East Los Angeles Basin,59,10,LAB edge,2,17
+33.9296,-117.8400,422,1506,174,20,20,1,-5.038625691,Wilde and Stock [1997],Brea Olinda 46,,EastLosAngeles,46,59,East Los Angeles Basin,63,14,LAB edge,2,18
+33.9238,-117.8221,283,1139,128,12,12,1,-5.695090502,Wilde and Stock [1997],Brea Olinda 41,,EastLosAngeles,41 - different,60,East Los Angeles Basin,62,15,LAB edge,2,19
+34.0394,-118.4031,3109,3450,16,9,10,B,26.93893455,Mount and Suppe [1992],RanchoPark,wsm01112,CA93,MOUNSU90 #V26,42,West Los Angeles Basin,,48,breakouts near basement,3,20
+33.9567,-118.3381,2708,2969,18,4,10,C,21.57140237,Mount and Suppe [1992],Twiler_#2,wsm01114,CA90,MOUNSU90 #V23,44,West Los Angeles Basin,,52,breakouts near basement,3,21
+33.9550,-118.3360,1559,2123,171,13,13,1,21.65163419,Wilde and Stock [1997],Turf 2,,WestLosAngeles,T2,45,West Los Angeles Basin,47,53,breakouts near basement,3,22
+33.9706,-118.3033,1568,3246,16,19,19,B,19.85295376,Mount and Suppe [1992],Hollywood_T_,wsm01121,CA84,MOUNSU90 #V13,48,West Los Angeles Basin,,55,breakouts near basement,3,23
+34.0583,-118.2948,1334,1751,16,8,10,1,14.59485028,Wilde and Stock [1997],Ambassador Core 1,,WestLosAngeles,ACH1,49,West Los Angeles Basin,41,56,breakouts near basement,3,24
+33.8142,-118.1808,1105,1606,19,25,25,C,32.31191107,Mount and Suppe [1992],NWLBU#8-7,wsm01447,CA173,MOUNSU90 #L2,50,South Los Angeles Basin,,35,breakouts near basement,3,25
+33.7847,-118.1433,2469,3532,28,28,28,D,41.53555413,Mount and Suppe [1992],SHOU#27-8,wsm01441,CA283,MOUNSU90 #L3,51,South Los Angeles Basin,,36,breakouts near basement,3,26
+34.3297,-119.3608,3530,4185,178,19,19,B,-0.932981659,Mount and Suppe [1992],Grubb_#106,wsm01451,CA91,MOUNSU90 #V24,3,West Ventura,,57,mid basin shallow Eqs,4,27
+34.2436,-119.2031,3018,4039,22,24,24,C,3.116151848,Mount and Suppe [1992],Utsuki-Burns,wsm01452,CA76,MOUNSU90 #V2,5,Central Ventura,,2,mid basin shallow Eqs,4,28
+34.4278,-119.1508,1205,1443,61,5,10,D,-17.38720357,Mount and Suppe [1992],Ojai_Fee_#10,wsm01115,CA89,MOUNSU90 #V22,7,Upper Ojai Valley,,38,mid basin shallow Eqs,4,29
+34.4337,-119.1483,2570,2663,22,3,10,1,-17.733305,Wilde and Stock [1997],Ojai 404,,UpperOjai,404,9,Upper Ojai Valley,14,39,mid basin shallow Eqs,4,30
+34.4281,-119.1375,918,1049,62,8,10,B,-17.29507375,Mount and Suppe [1992],Ojai_#88,wsm01119,CA86,MOUNSU90 #V18,10,Upper Ojai Valley,,40,mid basin shallow Eqs,4,31
+34.4329,-119.1285,175,226,175,18,18,1,-17.66361947,Wilde and Stock [1997],Ojai 501,,UpperOjai,501,NaN,Upper Ojai Valley,15,45,mid basin shallow Eqs,4,32
+34.4343,-119.1084,480,546,9,9,10,1,-17.77965601,Wilde and Stock [1997],Alexander 1,,UpperOjai,A-1,14,Upper Ojai Valley,12,41,mid basin shallow Eqs,4,33
+34.4366,-119.1023,740,751,24,2,10,1,-18.15105125,Wilde and Stock [1997],Harth 3,,UpperOjai,H-3,16,Upper Ojai Valley,6,42,mid basin shallow Eqs,4,34
+34.4304,-119.0988,869,1829,162,9,10,1,-17.96351622,Wilde and Stock [1997],Arco 20,,UpperOjai,20,NaN,Upper Ojai Valley,10,46,mid basin shallow Eqs,4,35
+34.4438,-119.0937,2494,2545,22,4,10,1,-18.67919871,Wilde and Stock [1997],De Nault 2,,UpperOjai,DN2,17,Upper Ojai Valley,7,43,mid basin shallow Eqs,4,36
+34.4342,-119.0850,557,1024,20,3,10,1,-18.49392842,Wilde and Stock [1997],Barker Ferndale 2,,UpperOjai,BF2,18,Upper Ojai Valley,8,44,mid basin shallow Eqs,4,37
+34.3272,-118.5833,505,1892,152,8,10,1,17.78784276,Wilde and Stock [1997],Orcutt Trust 1,,EastVenturaTransverse,OT1 - likely different stress regime - confer with Kerkela and Stock,35,Northridge/East Ventura/Transverse Ranges,28,27,mid basin shallow Eqs,4,38
+34.3220,-118.5637,1401,2994,21,0.3,10,1,18.20520813,Kerkela and Stock [1996],S. Calif Gas Aliso Canyon,,San Fernando Valley,SFZU SS 1-0,37,Northridge/East Ventura/Transverse Ranges,9,29,mid basin shallow Eqs,4,39
+34.4750,-119.9300,284,558,178,12,12,1,-15.26407945,Wilde and Stock [1997],Dreyfus 84,,SantaBarbara,D84,2,Santa Barbara,2,34,mid basin no shallow Eqs,5,40
+34.2092,-119.2230,2439,3605,47,21,21,1,3.010182191,Wilde and Stock [1997],Ballard Kramer 1,,CentVentura,BK1,4,Central Ventura,23,1,mid basin no shallow Eqs,5,41
+34.4453,-119.1514,2595,2745,29,17,17,C,-18.19779086,Mount and Suppe [1992],Ojai_#404,wsm01122,CA83,MOUNSU90 #V12,8,Upper Ojai Valley,,37,mid basin no shallow Eqs,5,42
+34.2175,-119.1311,2035,2882,13,9,10,B,1.034407447,Mount and Suppe [1992],Friedrich_Un,wsm01453,CA75,MOUNSU90 #V1,11,Central Ventura,,3,mid basin no shallow Eqs,5,43
+34.2368,-119.1292,2467,2510,48,42,42,1,1.049999952,Wilde and Stock [1997],Friedrich Unit 3-3,,CentVentura,FU3,12,Central Ventura,22,4,mid basin no shallow Eqs,5,44
+34.2325,-119.1125,2292,2683,24,2,10,C,1.049999952,Mount and Suppe [1992],Friedrich_Un,wsm01120,CA85,MOUNSU90 #V14,13,Central Ventura,,5,mid basin no shallow Eqs,5,45
+34.3378,-118.9681,412,1815,67,15,15,B,-14.10777071,Mount and Suppe [1992],Schieferle_#,wsm01129,CA77,MOUNSU90 #V4,19,Northridge/East Ventura/Transverse Ranges,,16,mid basin no shallow Eqs,5,46
+34.3042,-118.8833,1605,2209,52,11,11,1,-12.0488002,Wilde and Stock [1997],Shiells 8,,EastVenturaTransverse,SH8,22,Northridge/East Ventura/Transverse Ranges,26,18,mid basin no shallow Eqs,5,47
+34.3035,-118.7225,155,687,36,11,11,1,14.9657663,Wilde and Stock [1997],Tapo Fee 260,,EastVenturaTransverse,TF260,29,Northridge/East Ventura/Transverse Ranges,31,23,mid basin no shallow Eqs,5,48
+34.3500,-118.7063,200,282,65,19,19,1,11.2900002,Wilde and Stock [1997],Gillibrand 24,,EastVenturaTransverse,G24,30,Northridge/East Ventura/Transverse Ranges,27,24,mid basin no shallow Eqs,5,49
+34.2718,-118.4737,73,2256,116,0.3,10,1,25.44594588,Kerkela and Stock [1996],Unocal San Fernando Area,,San Fernando Valley,San Fernando 1-9,40,Northridge/East Ventura/Transverse Ranges,8,33,mid basin no shallow Eqs,5,50
+34.0080,-118.3683,568,604,98,5,10,1,24.93012476,Wilde and Stock [1997],VRU 258,,WestLosAngeles,VR258 - shallower,43,West Los Angeles Basin,49,51,mid basin no shallow Eqs,5,51
+33.9560,-118.3350,147,215,139,8,10,1,21.5617536,Wilde and Stock [1997],Turf 1,,WestLosAngeles,T1- shallower,46,West Los Angeles Basin,46,54,mid basin no shallow Eqs,5,52
+33.9400,-118.0667,387,504,87,19,19,1,-1.158864091,Wilde and Stock [1997],SFSU 374-C,,EastLosAngeles,SFSU374 -third region,52,East Los Angeles Basin,65,6,mid basin no shallow Eqs,5,53
+33.9457,-118.0650,397,1250,73,11,11,1,-1.733674272,Wilde and Stock [1997],SFSU 494-C,,EastLosAngeles,SFSU494 -third region,53,East Los Angeles Basin,66,7,mid basin no shallow Eqs,5,54
+33.9029,-117.9733,1136,1136,174,0,10,1,-4.650518413,Wilde and Stock [1997],Murphy Coyote 375,,EastLosAngeles,MC375,55,East Los Angeles Basin,58,11,mid basin no shallow Eqs,5,55
+33.9075,-117.9698,1046,1236,169,4,10,1,-5.006919327,Wilde and Stock [1997],Murphy Coyote 374,,EastLosAngeles,MC374,57,East Los Angeles Basin,57,12,mid basin no shallow Eqs,5,56
+33.9281,-117.9531,1020,1242,178,6,10,C,-4.668743733,Mount and Suppe [1992],MurphyCoyot,wsm01110,CA95,MOUNSU90 #V29,58,East Los Angeles Basin,,13,mid basin no shallow Eqs,5,57
