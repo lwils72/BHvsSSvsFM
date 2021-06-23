@@ -3,6 +3,8 @@ function [B,S,L,F,Regions,P]=load_and_parse_SSBHFM(BHinfile,FMinfile,SSinfile)
 % VERY IMPORTANT COMMENT, REGARDLESS OF SPELLING!!!!!!!
 % EXTRAORDINARILY IMPORTANT!
 %
+%NEW NEW
+%
 % [B,S,F,Regions,P]=load_and_parse_BHFM(BHinfile,FMinfile)
 %
 % inputs: 
