@@ -27,9 +27,9 @@ function [B,S,L,F,Regions,P]=load_and_parse_SSBHFM(BHinfile,FMinfile,SSinfile)
 % NAME THE FILES WE'LL BE LOADING IN BELOW (so they're easily changed later)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   % clear,tic
-  % BHinfile='dats/Table_S1.csv';
-  % FMinfile='dats/FM_subsets_asof_20200108.shmax';
-  % SSinfile='dats/LiPeng2017tableS3.csv';
+  BHinfile='dats/Table_S1.csv';
+  FMinfile='dats/FM_subsets_asof_20200108.shmax';
+  SSinfile='dats/LiPeng2017tableS3.csv';
 
   ZSTATSfile='dats/zstats_for_FM_subsets_asof_20200108.txt';
   NEQfile='dats/FM_subsets_asof_20200108.Neqdmax.mat';
