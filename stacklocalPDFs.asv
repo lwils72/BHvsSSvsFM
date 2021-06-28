@@ -23,7 +23,7 @@ setenv('PATH', [getenv('PATH') ':/usr/local/bin']);
     BHinfile='dats/Table_S1.csv';
     FMinfile='dats/FM_subsets_asof_20200108.shmax';
     SSinfile='dats/LiPeng2017tableS3.csv';
-    [B,S,L,F,Regions,P]=load_and_parse_SSBHFM(BHinfile,FMinfile,SSinfile); %make sure everything is in correct order with infiles uncommented
+    [B,S,L,F,Regions,P]=load_and_parse_SSBHFM(BHinfile,FMinfile,SSinfile);
 
     % THESE ACTUALLY AREN"T BEING USED THAT MUCH... CAN... UM... clear these a bit?
     daz = @(x,y) (mod(y-x+90,180)-90);  % Circular Difference
@@ -83,22 +83,18 @@ setenv('PATH', [getenv('PATH') ':/usr/local/bin']);
   %
   % Plot the 3D view of FMs, EQs, and CVM to scale (see previous figure 18)
   %
-  L.Z=L.X*0;
-  
     figure(2),clf
-    %scatter3(F.X,F.Y,-F.z,15,-F.z,'filled'),colorbar
+    scatter3(F.X,F.Y,-F.z,15,-F.z,'filled'),colorbar
     hold on,
     plot3(B.X,B.Y,B.topoz/1e3,'ko','linewidth',2)
     plot3((B.X*[1 1])',(B.Y*[1 1])',[B.z1el B.z2el]'/1e3,'-r','linewidth',3)
     surf(P.CVM.X(1:2:end)/1e3,P.CVM.Y(1:2:end)/1e3,P.CVM.Z(1:2:end,1:2:end)/1e3,'facecolor','none') 
     plot(P.cutm(:,1),P.cutm(:,2),'k')
     axis equal,axis(P.R2),zlim([-30,1]),caxis([-20,0])
-    %plot3([L.X-sc*sind(L.FastDirection),L.X+sc*sind(L.FastDirection)]',[L.Y-sc*cosd(L.FastDirection),L.Y+sc*cosd(L.FastDirection)]',[L.Z-sc*sind(L.FastDirection),L.Z+sc*sind(L.FastDirection)]','k','linewidth',0.05) %SS
-    scatter3(L.X,L.Y,L.Z,10,L.ResultantLength,'filled'),colorbar,grid %csym(90)
 
     iNorthRidgeEQ=find(floor(F.t)==datenum([1994 01 17]) & F.M>6);
     plot3(F.X(iNorthRidgeEQ),F.Y(iNorthRidgeEQ),-F.z(iNorthRidgeEQ),'k*','markersize',20,'linewidth',2)
-stop
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % SORT THE FM INVERSION SOLUTIONS INTO NEW ORDER TO MATCH THE CURRENT BH LIST
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -116,7 +112,7 @@ stop
         S.z50th=S.z50th(B.id,:,:);          % [57x16x3 double]
         S.z75th=S.z75th(B.id,:,:);          % [57x16x3 double]
         S.z95th=S.z95th(B.id,:,:);          % [57x16x3 double]
-     %  S.B_SHmax=S.B_SHmax(B.id,:,:);        % [57x16x3 double] out on l&p
+     %  S.B_SHmax=S.B_SHmax(B.id,:,:);        % [57x16x3 double] 
      % S.B_dSHmax=S.B_dSHmax(B.id,:,:);       % [57x16x3 double]
       S.F_SHmax=S.F_SHmax(B.id,:,:);        % [57x16x3 double]
      S.F_dSHmax=S.F_dSHmax(B.id,:,:);       % [57x16x3 double]
@@ -728,36 +724,20 @@ stop
   % Previously, this was calculated here.  Now, it's just being loaded from TableS1 as part of
   % load_and_parse_BHFM.m subroutine.
   %
-%     iLA=find(L.Y>P.R2(3) & L.Y<P.R2(4) & L.X>P.R2(1) & L.X<P.R2(2)); %list of iLA
-%     L.stationlon=L.stationlon(iLA);
-%     L.stationlat=L.stationlat(iLA);
-%     L.station=L.station(iLA);
-%     L.Nmeasurements=L.Nmeasurements(iLA);
-%     L.ResultantLength=L.ResultantLength(iLA);
-%     L.FastDirection=L.FastDirection(iLA);
-%     L.DelayTime=L.DelayTime(iLA);
-%     L.DelayTimeSTD=L.DelayTimeSTD(iLA);
-%     L.X=L.X(iLA);
-%     L.Y=L.Y(iLA);
-%       this info excludes the area that isnt the LAbasin   
-  
+ 
   %
   % plot to check and make sense out of all of this
   %
     LINES=lines(5);
 
-    figure(7),clf, %editing to add SS in 2D
+    figure(7),clf,
     scatter(F.X,F.Y,5,-F.z,'filled'),
     hold on
     plot(P.cutm(:,1),P.cutm(:,2),'k'),
     plot(P.futm(:,1),P.futm(:,2),'color',[1 1 1]*0.5),axis equal,axis(P.R2),
     contour(P.CVM.X/1e3,P.CVM.Y/1e3,P.CVM.Z/1e3,[-20:2:1],'linewidth',1),colorbar,caxis([-20,1])
-    plot(F.X(iNorthRidgeEQ),F.Y(iNorthRidgeEQ),'k*','markersize',20,'linewidth',2) %FM
-    plot([B.X-sc*sind(B.SHmax),B.X+sc*sind(B.SHmax)]',[B.Y-sc*cosd(B.SHmax),B.Y+sc*cosd(B.SHmax)]','k','linewidth',2) %BH
-    %plot([L.X(iLA)-sc*sind(L.FastDirection(iLA)),L.X(iLA)+sc*sind(L.FastDirection(iLA))]',[L.Y(iLA)-sc*cosd(L.FastDirection(iLA)),L.Y(iLA)+sc*cosd(L.FastDirection(iLA))]','k','linewidth',0.05) %SS
-    %scatter(L.X(iLA),L.Y(iLA),15,L.ResultantLength(iLA),'filled'),colorbar,grid %csym(90)
-    plot([L.X-sc*sind(L.FastDirection),L.X+sc*sind(L.FastDirection)]',[L.Y-sc*cosd(L.FastDirection),L.Y+sc*cosd(L.FastDirection)]','k','linewidth',0.05) %SS
-    scatter(L.X,L.Y,10,L.ResultantLength,'filled'),colorbar,grid %csym(90)
+    plot(F.X(iNorthRidgeEQ),F.Y(iNorthRidgeEQ),'k*','markersize',20,'linewidth',2)
+    plot([B.X-sc*sind(B.SHmax),B.X+sc*sind(B.SHmax)]',[B.Y-sc*cosd(B.SHmax),B.Y+sc*cosd(B.SHmax)]','k','linewidth',2)
     for i=1:max(B.GeolNum)
       plot(B.X(find(B.GeolNum==i)),B.Y(find(B.GeolNum==i)),'o','markeredgecolor','k','markerfacecolor',LINES(i,:))
     end
@@ -1105,8 +1085,6 @@ stop
     surf(P.CVM.X(1:2:end)/1e3,P.CVM.Y(1:2:end)/1e3,P.CVM.Z(1:2:end,1:2:end)/1e3,'facecolor','none') 
     % plot3(P.CFM.X/1e3,P.CFM.Y/1e3,P.CFM.z/1e3,'k')
     % plot3(P.NIF.X/1e3,P.NIF.Y/1e3,P.NIF.z/1e3,'k.')
-    % plot([L.X-sc*sind(L.FastDirection),L.X+sc*sind(L.FastDirection)]',[L.Y-sc*cosd(L.FastDirection),L.Y+sc*cosd(L.FastDirection)]','k','linewidth',0.05) %SS
-    % scatter(L.X,L.Y,15,L.ResultantLength,'filled'),colorbar,grid %csym(90)
     contour(P.CVM.X/1e3,P.CVM.Y/1e3,P.CVM.Z/1e3,1e2,'linewidth',0.5),
     plot(profileA.ends(:,1),profileA.ends(:,2),'r')
     plot3(profileA.X,profileA.Y,profileA.topoz/1e3,'r')
