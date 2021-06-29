@@ -166,7 +166,9 @@ function [B,S,L,F,Regions,P]=load_and_parse_SSBHFM(BHinfile,FMinfile,SSinfile)
     [~,r]=system('cat dats/LiPeng2017tableS3.csv | sed ''1d'' | awk -F, ''{print $2,$3}'' | gmt grdtrack -Ggrds/CVM15_10sec.grd -Z | grep -v WARNING');
     C=textscan(r,'%f');
     L.CVMz=C{1};
-
+    %this section is somewhat broken, our limits for the grid are smaller
+    %than the extent of the points we are sampling 
+    
   %
   % 3.5) Determine the abosolute elevations of breakouts
   %  - track elevation at each point from topo grd

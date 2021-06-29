@@ -1,18 +1,13 @@
-function [B,S,L,F,Regions,P]=load_and_parse_SSBHFM(BHinfile,FMinfile,SSinfile)
-%
-% VERY IMPORTANT COMMENT, REGARDLESS OF SPELLING!!!!!!!
-% EXTRAORDINARILY IMPORTANT!
+function [B,S,F,Regions,P]=load_and_parse_BHFM(BHinfile,FMinfile)
 %
 % [B,S,F,Regions,P]=load_and_parse_BHFM(BHinfile,FMinfile)
 %
 % inputs: 
-%  - BHinfile to load and parse, e.g. dats/Table_S1.csv
-%  - FMinfile to load and parse, e.g. dats/dats/FM_subsets_asof_20200108.shmax
-%  - SSinfile to load and parse, e.g. dats/LiPeng2017tableS3.csv
+%  - BHinfile to load an parse, e.g. dats/Table_S1.csv
+%  - FMinfile to load an parse, e.g. dats/dats/FM_subsets_asof_20200108.shmax
 % outputs:
 %  - B structural array with BH info
 %  - S structural array with FM inversion info
-%  - L structural array with SWS info 
 %  - F structural array with inividual focal mechanism info, from dats/YHS_fm_1981_2018.hash
 %  - Regions structural array with geometry info, from dats/subregionlist.csv
 %  - P structural array with plotting info from 
@@ -27,9 +22,8 @@ function [B,S,L,F,Regions,P]=load_and_parse_SSBHFM(BHinfile,FMinfile,SSinfile)
 % NAME THE FILES WE'LL BE LOADING IN BELOW (so they're easily changed later)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   % clear,tic
-  BHinfile='dats/Table_S1.csv';
-  FMinfile='dats/FM_subsets_asof_20210615.shmax';
-  SSinfile='dats/LiPeng2017tableS3.csv';
+  % BHinfile='dats/Table_S1.csv';
+  % FMinfile='dats/FM_subsets_asof_20200108.shmax';
 
   ZSTATSfile='dats/zstats_for_FM_subsets_asof_20200108.txt';
   NEQfile='dats/FM_subsets_asof_20200108.Neqdmax.mat';
@@ -40,6 +34,8 @@ function [B,S,L,F,Regions,P]=load_and_parse_SSBHFM(BHinfile,FMinfile,SSinfile)
   YH13grdfile='grds/Yang.FMSHmax.grd';
   CVMgrdfile='grds/CVM15_10sec.grd';
   CVMgrdfileUTM='grds/CVM15_250m_UTM11.grd';
+  BHinfile='dats/Table_S1.csv';
+  FMinfile='dats/FM_subsets_asof_20200108.shmax';
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % LOAD THE BOREHOLE DATA AND REGIONAL FM INVERSION DATA
@@ -50,33 +46,7 @@ function [B,S,L,F,Regions,P]=load_and_parse_SSBHFM(BHinfile,FMinfile,SSinfile)
 %  - and map info for plotting
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   %
-  % 1) Load the Seismic Stations 
-  %
-  
-      fid=fopen(SSinfile);
-      C=textscan(fid,'%s %f %f %f %f %f %f %f','headerlines',1,'delimiter',',');
-      fclose(fid);
-
-      L.station=C{1};
-      L.stationlon=C{2};
-      L.stationlat=C{3};
-      L.Nmeasurements=C{4};
-      L.ResultantLength=C{5};
-      L.FastDirection=C{6}; % deg E of N
-      L.DelayTime=C{7};
-      L.DelayTimeSTD=C{8};
-
-  % convert to UTM km
-    [L.X,L.Y]=ll2utm(L.stationlat,L.stationlon);
-     L.X=L.X/1e3;
-     L.Y=L.Y/1e3;
-     
-    L.FastDirection(find(L.FastDirection > 90))=L.FastDirection(find(L.FastDirection > 90))-180; % make boreholes [-90,90] to match FM SHmax
-  
-  
-  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-  %
-  % 1b) Load the borehole SHmax observations
+  % 1) Load the borehole SHmax observations
   %
     % fid=fopen('dats/Table_S1.csv');
     fid=fopen(BHinfile);
@@ -127,7 +97,7 @@ function [B,S,L,F,Regions,P]=load_and_parse_SSBHFM(BHinfile,FMinfile,SSinfile)
       B.Geol=C{19};
       B.GeolNum=C{20};
       % [~,~,B.GeolNum]=unique(B.Geol,'stable');
-      
+
   % 
   % 2) Load the FM catalog, and the Y&H inversion full grid 
   %    (values sampled at BH locations loaded above)
@@ -145,7 +115,6 @@ function [B,S,L,F,Regions,P]=load_and_parse_SSBHFM(BHinfile,FMinfile,SSinfile)
     F.Q=C{21}; %mechanism quality...
     [F.X,F.Y]=ll2utm(F.y,F.x); % utm for determining distances
     F.X=F.X/1e3;F.Y=F.Y/1e3; % km are easier to deal with than m
-    F.YSH_without_Q=cell2mat(C(1:20)); 
 
     % 
     % Load the Yang & Hauksson 2013 inversion results, the full grid
@@ -165,18 +134,18 @@ function [B,S,L,F,Regions,P]=load_and_parse_SSBHFM(BHinfile,FMinfile,SSinfile)
    
     [~,r]=system('cat dats/Table_S1.csv | sed ''1d'' | awk -F, ''{print $2,$1}'' | gmt grdtrack -Ggrds/CVM15_10sec.grd -Z');
     C=textscan(r,'%f');
-    L.CVMz=C{1};
+    B.CVMz=C{1};
 
   %
   % 3.5) Determine the abosolute elevations of breakouts
   %  - track elevation at each point from topo grd
   %  - subtract depths from surface elevation to get breakout elevations
   %
-    [~,r]=system('cat dats/Table_S1.csv | sed ''1d'' | awk -F, ''{print $2,$1}'' | gmt grdtrack -Ggrds/topo.grd -Z');
-    C=textscan(r,'%f');
-    B.topoz=C{1};
-    B.z1el=B.topoz-B.z1;
-    B.z2el=B.topoz-B.z2;
+    % [~,r]=system('cat dats/Table_S1.csv | sed ''1d'' | awk -F, ''{print $2,$1}'' | gmt grdtrack -Ggrds/topo.grd -Z');
+    % C=textscan(r,'%f');
+    % B.topoz=C{1};
+    % B.z1el=B.topoz-B.z1;
+    % B.z2el=B.topoz-B.z2;
 
 
   %
@@ -229,7 +198,7 @@ function [B,S,L,F,Regions,P]=load_and_parse_SSBHFM(BHinfile,FMinfile,SSinfile)
     %  - there's now a column about this in Table 1, which was derived from a previous version of this script
     %
       for k=1:length(Regions.R)
-        L.RegionNum(find(strcmp(L.Nmeasurements,Regions.name{k})),1)=k;
+        B.RegionNum(find(strcmp(B.REG,Regions.name{k})),1)=k;
       end
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -246,65 +215,65 @@ function [B,S,L,F,Regions,P]=load_and_parse_SSBHFM(BHinfile,FMinfile,SSinfile)
   % %  - NOTE: this long list doesn't really get used in the calling scripts (only the parsed grids), so load these
   % %    variables into a different structure than the one that will ultimately be passed.
   % %
-  %   FILENAME='dats/FM_subsets_asof_20200108.shmax';
-     fid=fopen(FMinfile);
-     C=textscan(fid,['%f %s',repmat(' %f',1,38)]);
-     fclose(fid);
+  %   % FILENAME='dats/FM_subsets_asof_20200108.shmax';
+  %   fid=fopen(FMinfile);
+  %   C=textscan(fid,['%f %s',repmat(' %f',1,38)]);
+  %   fclose(fid);
 
-     R.N1=C{1}; % file number, in alphabetical order?
-     R.filename=C{2};
-     R.N2=C{3}; % seems to be the same as N1, PROBABLY AN INDEX FOR PASTING THESE TWO SECTIONS TOGETHER
-     R.SHmax=C{4};
-     R.SHmax_pdf=cell2mat(C(5:40));
+  %   R.N1=C{1}; % file number, in alphabetical order?
+  %   R.filename=C{2};
+  %   R.N2=C{3}; % seems to be the same as N1, PROBABLY AN INDEX FOR PASTING THESE TWO SECTIONS TOGETHER
+  %   R.SHmax=C{4};
+  %   R.SHmax_pdf=cell2mat(C(5:40));
 
   % %
   % % parse the info in the filename to figure out which borehole and criteria each result belongs to
   % %
   %   %
-  %   % seismic station code
+  %   % borehole number, 1-60
   %   %
-       [~,R.SS]=system(['awk ''{print $2}'' ',FMinfile,' |  awk -F/ ''{print $2}'' | awk -F_ ''{print $2}'' ']);
-       C=textscan(R.SS,'%s');
-       R.SS=C{1};
+  %     [~,R.BH]=system(['awk ''{print $2}'' ',FMinfile,' |  awk -F/ ''{print $2}'' | awk -F_ ''{print $1}'' | awk -FH ''{print $2}'' ']);
+  %     R.BH=str2num(R.BH);
+
   %   %
   %   % max depth: all (999 km), shallow (5 km), or super shallow (3 km)
   %   %
-       [~,R.zmax]=system(['awk ''{print $2}'' ',FMinfile,' | awk -F/ ''{print $2}'' | awk -F_ ''{print $4}'' | sed ''s/any/999km/'' | awk -Fx ''{print $2}'' | awk -Fk ''{print $1}''']);
-       R.zmax=str2num(R.zmax);
+  %     [~,R.zmax]=system(['awk ''{print $2}'' ',FMinfile,' | awk -F/ ''{print $2}'' | awk -F_ ''{print $3}'' | sed ''s/any/999km/'' | awk -Fx ''{print $2}'' | awk -Fk ''{print $1}''']);
+  %     R.zmax=str2num(R.zmax);
 
   %   %
-  %   % max distance: # of km
+  %   % max distance: # of km, -10 for closest 10 events, -20 for closest 20 events
   %   %
-       [~,R.dmax]=system(['awk ''{print $2}'' ',FMinfile,' | awk -F/ ''{print $2}'' | awk -F_ ''{print $3}'' | awk -Fx ''{print $2}'' | awk -Fk ''{print $1}''']);
-       R.dmax=str2num(R.dmax);
+  %     [~,R.dmax]=system(['awk ''{print $2}'' ',FMinfile,' | awk -F/ ''{print $2}'' | awk -F_ ''{print $2}'' | sed ''s/Closest10/-10km/'' | sed ''s/Closest20/-20km/'' | awk -Fx ''{print $2}'' | awk -Fk ''{print $1}''']);
+  %     R.dmax=str2num(R.dmax);
 
   %   %
-  %   % Based on Seismic station, assign the appropriate locations...
+  %   % Based on Borehole Number, assign the appropriate locations...
   %   %
-%        R.x=L.stationlon(R.BH);
-%        R.y=L.stationlat(R.BH);
-%        R.X=L.X(R.BH);
-%        R.Y=L.Y(R.BH);
-       %R.z1=L.z1(R.BH);
-       %R.z2=L.z2(R.BH);
+  %     R.x=B.x(R.BH);
+  %     R.y=B.y(R.BH);
+  %     R.X=B.X(R.BH);
+  %     R.Y=B.Y(R.BH);
+  %     R.z1=B.z1(R.BH);
+  %     R.z2=B.z2(R.BH);
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % LOAD depth statistics per FM solution (calculated by calcFMdepthstats.com)
 %  - to be parsed into 3-D arrays below
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%    fid=fopen(ZSTATSfile);
-%    C=textscan(fid,'BH%f_dmax%fkm_zmax%fkm.dat %f %f %f %f %f %f');
-%    fclose(fid);
-% 
-%    rBH=C{1};       % borehole number
-%    rdmax=C{2};     % dmax in km (negative for "closest")
-%    rzmax=C{3};     % zmax in km (999 km for "any")
-%    rzmean=C{4};    % mean depth of eqs in this set, NaN if empty
-%    rz05th=C{5};    % 5th depth quantile (so, top) of eqs in this set, NaN if empty
-%    rz25th=C{6};    % 25th depth quantile of eqs in this set, NaN if empty
-%    rz50th=C{7};    % median depth of eqs in this set, NaN if empty
-%    rz75th=C{8};    % 75th depth quantile of eqs in this set, NaN if empty
-%    rz95th=C{9};    % 95th depth quantile (so, base) of eqs in this set, NaN if empty
+  % fid=fopen(ZSTATSfile);
+  % C=textscan(fid,'BH%f_dmax%fkm_zmax%fkm.dat %f %f %f %f %f %f');
+  % fclose(fid);
+
+  % rBH=C{1};       % borehole number
+  % rdmax=C{2};     % dmax in km (negative for "closest")
+  % rzmax=C{3};     % zmax in km (999 km for "any")
+  % rzmean=C{4};    % mean depth of eqs in this set, NaN if empty
+  % rz05th=C{5};    % 5th depth quantile (so, top) of eqs in this set, NaN if empty
+  % rz25th=C{6};    % 25th depth quantile of eqs in this set, NaN if empty
+  % rz50th=C{7};    % median depth of eqs in this set, NaN if empty
+  % rz75th=C{8};    % 75th depth quantile of eqs in this set, NaN if empty
+  % rz95th=C{9};    % 95th depth quantile (so, base) of eqs in this set, NaN if empty
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % PARSE OUT HYPERLOCAL SHmax VALUES INTO SENSIBLE 3D GRID
@@ -317,63 +286,61 @@ function [B,S,L,F,Regions,P]=load_and_parse_SSBHFM(BHinfile,FMinfile,SSinfile)
     % %   - list of zmax, dmax, and BH# considered
     % %   - Bins associted with the SHmax pdf distribution
     % %
-       S.zmaxset=unique(R.zmax);
-       S.dmaxset=unique(R.dmax);
-       S.SSset=unique(R.SS);
-       S.bins=-87.5:5:87.5;
+    %   S.zmaxset=unique(R.zmax);
+    %   S.dmaxset=unique(R.dmax);
+    %   S.BHset=[1:numel(B.x)]';
+    %   S.bins=-87.5:5:87.5;
         
     % %
     % % Define the empty 3-D arrays to be filled
     % %
 
-       S.SHmax=ones(numel(S.SSset),numel(S.dmaxset),numel(S.zmaxset))*NaN;
+    %   S.SHmax=ones(numel(S.BHset),numel(S.dmaxset),numel(S.zmaxset))*NaN;
 
     % %
     % % loop to fill in the arrays with available data
     % %
-       for i=1:numel(S.SSset)
-        for j=1:numel(S.dmaxset)
-          for k=1:numel(S.zmaxset)
+    %   for i=1:numel(S.BHset)
+    %     for j=1:numel(S.dmaxset)
+    %       for k=1:numel(S.zmaxset)
 
-            %id=find(R.SS==S.SSset(i) & R.dmax==S.dmaxset(j) & R.zmax==S.zmaxset(k));
-            id=find(strcmp(R.SS,S.SSset(i)) & R.dmax==S.dmaxset(j) & R.zmax==S.zmaxset(k));
-            
-            if numel(id)>0
-              S.SHmax(i,j,k)=R.SHmax(id); % best SHmax, Jeanne's estimate
-              S.SHmax_pdf{i,j,k}=R.SHmax_pdf(id,:); % pdf of SHmax, Jeanne's estimate
-            end
+    %         id=find(R.BH==S.BHset(i) & R.dmax==S.dmaxset(j) & R.zmax==S.zmaxset(k));
+    %         if numel(id)>0
+    %           S.SHmax(i,j,k)=R.SHmax(id); % best SHmax, Jeanne's estimate
+    %           S.SHmax_pdf{i,j,k}=R.SHmax_pdf(id,:); % pdf of SHmax, Jeanne's estimate
+    %         end
 
-%             id2=find(rBH==S.BHset(i) & rdmax==S.dmaxset(j) & rzmax==S.zmaxset(k));
-% 
-%             S.zmean(i,j,k)=rzmean(id2);
-%             S.z05th(i,j,k)=rz05th(id2);
-%             S.z25th(i,j,k)=rz25th(id2);
-%             S.z50th(i,j,k)=rz50th(id2);
-%             S.z75th(i,j,k)=rz75th(id2);
-%             S.z95th(i,j,k)=rz95th(id2);
-          end
-        end
-      end
+    %         id2=find(rBH==S.BHset(i) & rdmax==S.dmaxset(j) & rzmax==S.zmaxset(k));
+
+    %         S.zmean(i,j,k)=rzmean(id2);
+    %         S.z05th(i,j,k)=rz05th(id2);
+    %         S.z25th(i,j,k)=rz25th(id2);
+    %         S.z50th(i,j,k)=rz50th(id2);
+    %         S.z75th(i,j,k)=rz75th(id2);
+    %         S.z95th(i,j,k)=rz95th(id2);
+    %       end
+    %     end
+    %   end
 
     % %
     % % Make comparably sized arrays of Borehole SHmax and dSHmax, as well as regional FM SHmax and dSHmax
     % %
-       S.B_SHmax=repmat(L.FastDirection,[1,numel(S.dmaxset),numel(S.zmaxset)]);
-       S.B_dSHmax=repmat(L.dSHmax,[1,numel(S.dmaxset),numel(S.zmaxset)]);
-%        S.F_SHmax=repmat(B.FMSHmax,[1,numel(S.dmaxset),numel(S.zmaxset)]);
-%        S.F_dSHmax=repmat(B.FMdSHmax,[1,numel(S.dmaxset),numel(S.zmaxset)]);
+    %   S.B_SHmax=repmat(B.SHmax,[1,numel(S.dmaxset),numel(S.zmaxset)]);
+    %   S.B_dSHmax=repmat(B.dSHmax,[1,numel(S.dmaxset),numel(S.zmaxset)]);
+    %   S.F_SHmax=repmat(B.FMSHmax,[1,numel(S.dmaxset),numel(S.zmaxset)]);
+    %   S.F_dSHmax=repmat(B.FMdSHmax,[1,numel(S.dmaxset),numel(S.zmaxset)]);
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % LOAD Number of earthquakes per solution and distance to 10th or 20th closest earthquake
 %  - parse out number of earthquakes per set (note: the dmaxset list is in the opposite order from what
 %    is established by reading in the Jeanne results above, hence the need for the fliplr)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-   T=load(NEQfile);
-   S.Neq(:,:,1)=fliplr(T.Nshallowest);
-   S.Neq(:,:,2)=fliplr(T.Nshallow);
-   S.Neq(:,:,3)=fliplr(T.Nall);
-   S.d10th=[T.d10th_shallowest,T.d10th_shallow,T.d10th];
-   S.d20th=[T.d20th_shallowest,T.d20th_shallow,T.d20th];
+  % T=load(NEQfile);
+  % S.Neq(:,:,1)=fliplr(T.Nshallowest);
+  % S.Neq(:,:,2)=fliplr(T.Nshallow);
+  % S.Neq(:,:,3)=fliplr(T.Nall);
+  % S.d10th=[T.d10th_shallowest,T.d10th_shallow,T.d10th];
+  % S.d20th=[T.d20th_shallowest,T.d20th_shallow,T.d20th];
 
-  %S=[]; % dummy assign to keep it from complaining...
+  S=[]; % dummy assign to keep it from complaining...
 % toc
