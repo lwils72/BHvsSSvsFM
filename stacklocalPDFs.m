@@ -180,11 +180,12 @@ setenv('PATH', [getenv('PATH') ':/usr/local/bin']);
 
   %
   % This is the addition of the scatter plot from test_SWSvsFM figure (8) 
-  %
+  % Different subplots in one large plot Zmax 5,10,any vs Dmax etc. 
+  % Figures need to show the various z or d max distances. 
   
     figure(8),clf
   % subplot(133)
-    plot(B.SHmax,B.FMSHmax,'o',L.FastDirection,L.Nmeasurements,'^','linewidth',1) %says that I cannot have more than two demensions for [S.SHmax] but seems to work well with Nmeasurements, 
+    plot(B.SHmax,B.FMSHmax,'o',L.FastDirection,S.SHmax,'^','linewidth',1) %says that I cannot have more than two demensions for [S.SHmax] but seems to work well with Nmeasurements, 
     axis equal,xlim([-90,90]),ylim([-90,90]),grid
     xticks((-90:30:90)),yticks((-90:30:90))
     legend('boreholes with breakouts','seismic stations with SWS fast directions',...

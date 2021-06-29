@@ -180,7 +180,7 @@ setenv('PATH', [getenv('PATH') ':/usr/local/bin']);
 
   %
   % This is the addition of the scatter plot from test_SWSvsFM figure (8) 
-  %
+  % different subplots in one large plot Zmax 5,10,any vs Dmax etc. Grid of figures shows the various z or d max distances. 
   
     figure(8),clf
   % subplot(133)
