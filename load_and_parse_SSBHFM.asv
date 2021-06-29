@@ -163,7 +163,7 @@ function [B,S,L,F,Regions,P]=load_and_parse_SSBHFM(BHinfile,FMinfile,SSinfile)
     [P.CVM.x,P.CVM.y,P.CVM.z]=grdread(CVMgrdfile);
     [P.CVM.X,P.CVM.Y,P.CVM.Z]=grdread(CVMgrdfileUTM);
    
-    [~,r]=system('cat dats/LiPeng2017tableS3.csv | sed ''1d'' | awk -F, ''{print $2,$3}'' | gmt grdtrack -Ggrds/CVM15_10sec.grd -Z | grep -v WARNING');
+    [~,r]=system('cat dats/Table_S1.csv | sed ''1d'' | awk -F, ''{print $2,$1}'' | gmt grdtrack -Ggrds/CVM15_10sec.grd -Z');
     C=textscan(r,'%f');
     L.CVMz=C{1};
 
@@ -358,8 +358,8 @@ function [B,S,L,F,Regions,P]=load_and_parse_SSBHFM(BHinfile,FMinfile,SSinfile)
     % %
     % % Make comparably sized arrays of Borehole SHmax and dSHmax, as well as regional FM SHmax and dSHmax
     % %
-       S.L_SHmax=repmat(L.FastDirection,[1,numel(S.dmaxset),numel(S.zmaxset)]); %not SHmax but fast direction of SWS
-       S.L_dSHmax=repmat(L.ResultantLength,[1,numel(S.dmaxset),numel(S.zmaxset)]);%remember not dSHmax but the resultantlength 
+       S.B_SHmax=repmat(L.FastDirection,[1,numel(S.dmaxset),numel(S.zmaxset)]);
+       S.B_dSHmax=repmat(L.dSHmax,[1,numel(S.dmaxset),numel(S.zmaxset)]);
 %        S.F_SHmax=repmat(B.FMSHmax,[1,numel(S.dmaxset),numel(S.zmaxset)]);
 %        S.F_dSHmax=repmat(B.FMdSHmax,[1,numel(S.dmaxset),numel(S.zmaxset)]);
 
@@ -368,12 +368,12 @@ function [B,S,L,F,Regions,P]=load_and_parse_SSBHFM(BHinfile,FMinfile,SSinfile)
 %  - parse out number of earthquakes per set (note: the dmaxset list is in the opposite order from what
 %    is established by reading in the Jeanne results above, hence the need for the fliplr)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%    T=load(NEQfile);
-%    S.Neq(:,:,1)=fliplr(T.Nshallowest);
-%    S.Neq(:,:,2)=fliplr(T.Nshallow);
-%    S.Neq(:,:,3)=fliplr(T.Nall);
-%    S.d10th=[T.d10th_shallowest,T.d10th_shallow,T.d10th];
-%    S.d20th=[T.d20th_shallowest,T.d20th_shallow,T.d20th];
+   T=load(NEQfile);
+   S.Neq(:,:,1)=fliplr(T.Nshallowest);
+   S.Neq(:,:,2)=fliplr(T.Nshallow);
+   S.Neq(:,:,3)=fliplr(T.Nall);
+   S.d10th=[T.d10th_shallowest,T.d10th_shallow,T.d10th];
+   S.d20th=[T.d20th_shallowest,T.d20th_shallow,T.d20th];
 
   %S=[]; % dummy assign to keep it from complaining...
 % toc
