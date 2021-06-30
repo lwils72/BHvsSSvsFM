@@ -21,9 +21,26 @@ setenv('PATH', [getenv('PATH') ':/usr/local/bin']);
   %
     tic
     BHinfile='dats/Table_S1.csv';
-    FMinfile='dats/FM_subsets_asof_20200108.shmax';
+    FMinfile='dats/FM_subsets_asof_20210615.shmax';
     SSinfile='dats/LiPeng2017tableS3.csv';
     [B,S,L,F,Regions,P]=load_and_parse_SSBHFM(BHinfile,FMinfile,SSinfile); %make sure everything is in correct order with infiles uncommented
+
+   %
+   % This excludes SS that are not in the LA basin 
+   %
+     iLA=find(L.Y>P.R2(3) & L.Y<P.R2(4) & L.X>P.R2(1) & L.X<P.R2(2)); %list of iLA
+     L.stationlon=L.stationlon(iLA);
+     L.stationlat=L.stationlat(iLA);
+     L.station=L.station(iLA);
+     L.Nmeasurements=L.Nmeasurements(iLA);
+     L.ResultantLength=L.ResultantLength(iLA);
+     L.FastDirection=L.FastDirection(iLA);
+     L.DelayTime=L.DelayTime(iLA);
+     L.DelayTimeSTD=L.DelayTimeSTD(iLA);
+     L.X=L.X(iLA);
+     L.Y=L.Y(iLA);
+     S.L_SHmax=S.L_SHmax(iLA,:,:);
+     S.L_dSHmax=S.L_dSHmax(iLA,:,:);
 
     % THESE ACTUALLY AREN"T BEING USED THAT MUCH... CAN... UM... clear these a bit?
     daz = @(x,y) (mod(y-x+90,180)-90);  % Circular Difference
@@ -86,7 +103,7 @@ setenv('PATH', [getenv('PATH') ':/usr/local/bin']);
   L.Z=L.X*0;
   
     figure(2),clf
-    %scatter3(F.X,F.Y,-F.z,15,-F.z,'filled'),colorbar
+    scatter3(F.X,F.Y,-F.z,15,-F.z,'filled'),colorbar
     hold on,
     plot3(B.X,B.Y,B.topoz/1e3,'ko','linewidth',2)
     plot3((B.X*[1 1])',(B.Y*[1 1])',[B.z1el B.z2el]'/1e3,'-r','linewidth',3)
@@ -98,7 +115,7 @@ setenv('PATH', [getenv('PATH') ':/usr/local/bin']);
 
     iNorthRidgeEQ=find(floor(F.t)==datenum([1994 01 17]) & F.M>6);
     plot3(F.X(iNorthRidgeEQ),F.Y(iNorthRidgeEQ),-F.z(iNorthRidgeEQ),'k*','markersize',20,'linewidth',2)
-stop
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % SORT THE FM INVERSION SOLUTIONS INTO NEW ORDER TO MATCH THE CURRENT BH LIST
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -107,22 +124,22 @@ stop
   % the BH.id order.
   %  - EXCEPT!!! S.B_SHmax, because that was derived from B, so it already has the right order
   %
-        S.BHset=S.BHset(B.id,:);            % [57x1 double]
-        S.SHmax=S.SHmax(B.id,:,:);          % [57x16x3 double]
-    S.SHmax_pdf=S.SHmax_pdf(B.id,:,:);      % {57x16x3 cell}
-        S.zmean=S.zmean(B.id,:,:);          % [57x16x3 double]
-        S.z05th=S.z05th(B.id,:,:);          % [57x16x3 double]
-        S.z25th=S.z25th(B.id,:,:);          % [57x16x3 double]
-        S.z50th=S.z50th(B.id,:,:);          % [57x16x3 double]
-        S.z75th=S.z75th(B.id,:,:);          % [57x16x3 double]
-        S.z95th=S.z95th(B.id,:,:);          % [57x16x3 double]
-     %  S.B_SHmax=S.B_SHmax(B.id,:,:);        % [57x16x3 double] out on l&p
-     % S.B_dSHmax=S.B_dSHmax(B.id,:,:);       % [57x16x3 double]
-      S.F_SHmax=S.F_SHmax(B.id,:,:);        % [57x16x3 double]
-     S.F_dSHmax=S.F_dSHmax(B.id,:,:);       % [57x16x3 double]
-          S.Neq=S.Neq(B.id,:,:);            % [57x16x3 double]
-        S.d10th=S.d10th(B.id,:);            % [57x3 double]
-        S.d20th=S.d20th(B.id,:);            % [57x3 double]
+%          S.SSset=S.SSset(L.id,:);            % [57x1 double]
+%          S.SHmax=S.SHmax(L.id,:,:);          % [57x16x3 double]
+%          S.SHmax_pdf=S.SHmax_pdf(L.id,:,:);  % {57x16x3 cell}
+%          S.zmean=S.zmean(L.id,:,:);          % [57x16x3 double]
+%          S.z05th=S.z05th(L.id,:,:);          % [57x16x3 double]
+%          S.z25th=S.z25th(L.id,:,:);          % [57x16x3 double]
+%          S.z50th=S.z50th(L.id,:,:);          % [57x16x3 double]
+%          S.z75th=S.z75th(L.id,:,:);          % [57x16x3 double]
+%          S.z95th=S.z95th(L.id,:,:);          % [57x16x3 double]
+%         S.B_SHmax=S.B_SHmax(B.id,:,:);      % [57x16x3 double] out on l&p
+%        S.B_dSHmax=S.B_dSHmax(B.id,:,:);     % [57x16x3 double]
+%        S.L_SHmax=S.F_SHmax(L.id,:,:);        % [57x16x3 double]
+%       S.L_dSHmax=S.F_dSHmax(L.id,:,:);       % [57x16x3 double]
+%           S.Neq=S.Neq(B.id,:,:);            % [57x16x3 double]
+%        S.d10th=S.d10th(B.id,:);            % [57x3 double]
+%         S.d20th=S.d20th(B.id,:);            % [57x3 double]
 
   %
   % Do the comparison and plot the raw results: 
@@ -130,7 +147,7 @@ stop
   %  - we're overall much more interested in the full pdfs with uncertainty
   %  - DO THIS AFTER RE-SORTING S.* to avoid getting the wrong answers
   %
-    BHvFM=abs(daz(S.SHmax,S.B_SHmax)); % Absolute Circular Difference of the Data
+    %zBHvFM=abs(daz(S.SHmax,S.B_SHmax)); % Absolute Circular Difference of the Data
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % PLOT THE MAPVIEW OF FM SOLUTIONS, JUST BECAUSE... THEY GO IN THE SUPPLEMENT
@@ -162,6 +179,23 @@ stop
     % grid
 
   %
+  % This is the addition of the scatter plot from test_SWSvsFM figure (8) 
+  % Different subplots in one large plot Zmax 5,10,any vs Dmax etc. 
+  % Figures need to show the various z or d max distances. 
+  
+    figure(8),clf
+  % subplot(133)
+    plot(B.SHmax,B.FMSHmax,'o',L.FastDirection,S.SHmax,'^','linewidth',1) %says that I cannot have more than two demensions for [S.SHmax] but seems to work well with Nmeasurements, 
+    axis equal,xlim([-90,90]),ylim([-90,90]),grid
+    xticks((-90:30:90)),yticks((-90:30:90))
+    legend('boreholes with breakouts','seismic stations with SWS fast directions',...
+      'location','northwest','FontSize',12,'FontWeight','bold')
+    xlabel('observed BH SHmax or SWS Fast Direction (degEofN)','FontSize',12)
+    ylabel('SHmax from Y&H13 regional focal mechanism inversion (degEofN)','FontSize',12)
+    text(-88,-85,'d) ','FontSize',12,'FontWeight','bold')
+    set(gcf,'renderer','Painters')
+    
+  %
   % Plot and save maps of Borehole SHmax vs FM SHmax estimates for various criteria
   %  - we did a version of this for SSA 2019, but haven't with the latest results
   %  - not expecting it to be particularly meaningful, but it seems to be helpful to
@@ -178,26 +212,26 @@ stop
     [ha,pos]=tight_subplot(2,2,0.05,0.15,0.05); % this just helps it be a nicer looking journal figure
       axes(ha(1))
       % subplot(2,2,1),
-        plot(P.cutm(:,1),P.cutm(:,2),'k',P.futm(:,1),P.futm(:,2),'w',B.X,B.Y,'ok'),axis equal,axis(P.R2)
+        plot(P.cutm(:,1),P.cutm(:,2),'k',P.futm(:,1),P.futm(:,2),'w',L.X,L.Y,'ok'),axis equal,axis(P.R2)
         % set(gca,'Color',[1 1 1]*0.75)
         hold on,
-        plot([B.X-sc*sind(B.SHmax),B.X+sc*sind(B.SHmax)]',[B.Y-sc*cosd(B.SHmax),B.Y+sc*cosd(B.SHmax)]','k','linewidth',2)
-        scatter(B.X,B.Y,50,B.SHmax,'filled','markeredgecolor','k'),csym(90),colormap(cpolar),
+        plot([L.X-sc*sind(L.FastDirection),L.X+sc*sind(L.FastDirection)]',[L.Y-sc*cosd(L.FastDirection),L.Y+sc*cosd(L.FastDirection)]','k','linewidth',2)
+        scatter(L.X,L.Y,50,L.FastDirection,'filled','markeredgecolor','k'),csym(90),colormap(cpolar),
         % colorbar('YTick',[-90:30:90])
         xticks([]),yticks([])
         % yticks(3730:20:3810)
         % title(['a) borehole SHmax'])
-        text(227,3737,'a) borehole SHmax','FontSize',12,'FontWeight','bold')
-    
-      for k=1:numel(S.zmaxset)
-        % subplot(2,2,k+1)
-        axes(ha(k+1))
-        plot(P.cutm(:,1),P.cutm(:,2),'k',P.futm(:,1),P.futm(:,2),'w',B.X,B.Y,'ok'),axis equal,axis(P.R2)
-        % set(gca,'Color',[1 1 1]*0.75)
+        text(227,3737,'a) SS FastDirection','FontSize',12,'FontWeight','bold')
+        
+      for k=1:numel(S.dmaxset) %using the 8 distances, it was set for zmaxset and still works for dmaxset
+        %subplot(2,2,k+1)
+        axes(ha(k+1)) % ran into a problem here, says exceeds the num of array elements(4)
+        plot(P.cutm(:,1),P.cutm(:,2),'k',P.futm(:,1),P.futm(:,2),'w',L.X,L.Y,'ok'),axis equal,axis(P.R2)
+        %set(gca,'Color',[1 1 1]*0.75)
         hold on,
 
-        plot([B.X-sc*sind(S.SHmax(:,j,k)),B.X+sc*sind(S.SHmax(:,j,k))]',[B.Y-sc*cosd(S.SHmax(:,j,k)),B.Y+sc*cosd(S.SHmax(:,j,k))]','k','linewidth',2)
-        scatter(B.X,B.Y,50,S.SHmax(:,j,k),'filled','markeredgecolor','k'),csym(90),colormap(cpolar),
+        plot([L.X-sc*sind(S.SHmax(:,j,k)),L.X+sc*sind(S.SHmax(:,j,k))]',[L.Y-sc*cosd(S.SHmax(:,j,k)),L.Y+sc*cosd(S.SHmax(:,j,k))]','k','linewidth',2)%exceeds array bounds 
+        scatter(L.X,L.Y,50,S.SHmax(:,j,k),'filled','markeredgecolor','k'),csym(90),colormap(cpolar),
         % colorbar('YTick',[-90:30:90])
         xticks([]),yticks([])
         % yticks(3730:20:3810)
@@ -217,14 +251,14 @@ stop
       end
       h=colorbar('YTick',[-90:30:90],'Location','southoutside','FontSize',10);
       h.Position=[0.3 0.1 0.4 0.035];
-      h.Label.String='SHmax (deg E of N)';
+      h.Label.String='SS FastDirection (deg E of N)';
       h.Label.FontSize=12;
       h.Label.FontWeight='bold';
 
       % figfilename=sprintf('figs/supplementalfigs/map_FMSHmax_dmax%d',S.dmaxset(j));
       % saveas(gcf,figfilename,'epsc2')
     % end
-
+stop
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % HOW WELL DO BH FIT EACH OTHER IN THE GIVEN DISTANCE BINS?
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -728,17 +762,19 @@ stop
   % Previously, this was calculated here.  Now, it's just being loaded from TableS1 as part of
   % load_and_parse_BHFM.m subroutine.
   %
-%     iLA=find(L.Y>P.R2(3) & L.Y<P.R2(4) & L.X>P.R2(1) & L.X<P.R2(2)); %list of iLA
-%     L.stationlon=L.stationlon(iLA);
-%     L.stationlat=L.stationlat(iLA);
-%     L.station=L.station(iLA);
-%     L.Nmeasurements=L.Nmeasurements(iLA);
-%     L.ResultantLength=L.ResultantLength(iLA);
-%     L.FastDirection=L.FastDirection(iLA);
-%     L.DelayTime=L.DelayTime(iLA);
-%     L.DelayTimeSTD=L.DelayTimeSTD(iLA);
-%     L.X=L.X(iLA);
-%     L.Y=L.Y(iLA);
+     iLA=find(L.Y>P.R2(3) & L.Y<P.R2(4) & L.X>P.R2(1) & L.X<P.R2(2)); %list of iLA
+     L.stationlon=L.stationlon(iLA);
+     L.stationlat=L.stationlat(iLA);
+     L.station=L.station(iLA);
+     L.Nmeasurements=L.Nmeasurements(iLA);
+     L.ResultantLength=L.ResultantLength(iLA);
+     L.FastDirection=L.FastDirection(iLA);
+     L.DelayTime=L.DelayTime(iLA);
+     L.DelayTimeSTD=L.DelayTimeSTD(iLA);
+     L.X=L.X(iLA);
+     L.Y=L.Y(iLA);
+     S.L_SHmax=S.L_SHmax(iLA,:,:);
+     S.L_dSHmax=S.L_dSHmax(iLA,:,:);
 %       this info excludes the area that isnt the LAbasin   
   
   %
