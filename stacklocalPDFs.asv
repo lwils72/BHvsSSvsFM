@@ -105,7 +105,7 @@ setenv('PATH', [getenv('PATH') ':/usr/local/bin']);
     figure(2),clf
     scatter3(F.X,F.Y,-F.z,15,-F.z,'filled'),colorbar
     hold on,
-    plot3(B.X,B.Y,B.topoz/1e3,'ko','linewidth',2)
+    plot3(L.X,L.Y,L.Z/1e3,'ko','linewidth',2)
     plot3((B.X*[1 1])',(B.Y*[1 1])',[B.z1el B.z2el]'/1e3,'-r','linewidth',3)
     surf(P.CVM.X(1:2:end)/1e3,P.CVM.Y(1:2:end)/1e3,P.CVM.Z(1:2:end,1:2:end)/1e3,'facecolor','none') 
     plot(P.cutm(:,1),P.cutm(:,2),'k')
@@ -115,7 +115,7 @@ setenv('PATH', [getenv('PATH') ':/usr/local/bin']);
 
     iNorthRidgeEQ=find(floor(F.t)==datenum([1994 01 17]) & F.M>6);
     plot3(F.X(iNorthRidgeEQ),F.Y(iNorthRidgeEQ),-F.z(iNorthRidgeEQ),'k*','markersize',20,'linewidth',2)
-
+stop
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % SORT THE FM INVERSION SOLUTIONS INTO NEW ORDER TO MATCH THE CURRENT BH LIST
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -180,19 +180,25 @@ setenv('PATH', [getenv('PATH') ':/usr/local/bin']);
 
   %
   % This is the addition of the scatter plot from test_SWSvsFM figure (8) 
-  % different subplots in one large plot Zmax 5,10,any vs Dmax etc. Grid of figures shows the various z or d max distances. 
+  % Different subplots in one large plot Zmax 5,10,any vs Dmax etc. 
+  % Figures need to show the various z or d max distances. 
   
-    figure(8),clf
-  % subplot(133)
-    plot(B.SHmax,B.FMSHmax,'o',L.FastDirection,L.Nmeasurements,'^','linewidth',1) %says that I cannot have more than two demensions for [S.SHmax] but seems to work well with Nmeasurements, 
-    axis equal,xlim([-90,90]),ylim([-90,90]),grid
-    xticks((-90:30:90)),yticks((-90:30:90))
-    legend('boreholes with breakouts','seismic stations with SWS fast directions',...
-      'location','northwest','FontSize',12,'FontWeight','bold')
-    xlabel('observed BH SHmax or SWS Fast Direction (degEofN)','FontSize',12)
-    ylabel('SHmax from Y&H13 regional focal mechanism inversion (degEofN)','FontSize',12)
-    text(-88,-85,'d) ','FontSize',12,'FontWeight','bold')
-    set(gcf,'renderer','Painters')
+      figure(8),clf
+      for j=1:numel(S.dmaxset)
+         for k=1:numel(S.zmaxset)
+      subplot(3,8,(k-1)*8+j)
+      plot(L.FastDirection,S.SHmax(:,j,k),'^','linewidth',1) %says that I cannot have more than two demensions for [S.SHmax] but seems to work well with Nmeasurements, 
+      axis equal,xlim([-90,90]),ylim([-90,90]),grid
+      xticks((-90:30:90)),yticks((-90:30:90))
+      %legend('boreholes with breakouts','seismic stations with SWS fast directions',...
+       % 'location','northwest','FontSize',12,'FontWeight','bold')
+      xlabel('SWS Fast Direction')
+      ylabel('FMSHmax')
+      %text(-88,-85,'d) ','FontSize',12,'FontWeight','bold')
+      set(gcf,'renderer','Painters')
+      title(['dmax = ',num2str(S.dmaxset(j)),'km zmax=',num2str(S.zmaxset(k)),'km'])
+         end
+      end
     
   %
   % Plot and save maps of Borehole SHmax vs FM SHmax estimates for various criteria
@@ -205,8 +211,8 @@ setenv('PATH', [getenv('PATH') ':/usr/local/bin']);
 
     figure(3),clf
     set(gcf,'Position',[100,400,665,440])
-    j=find(S.dmaxset==10); % this is the index for the 10km dmax solution, for testing
-    % for j=1:numel(S.dmaxset)
+    %j=find(S.dmaxset==10); % this is the index for the 10km dmax solution, for testing
+     for j=1:numel(S.dmaxset)
 
     [ha,pos]=tight_subplot(2,2,0.05,0.15,0.05); % this just helps it be a nicer looking journal figure
       axes(ha(1))
@@ -222,7 +228,7 @@ setenv('PATH', [getenv('PATH') ':/usr/local/bin']);
         % title(['a) borehole SHmax'])
         text(227,3737,'a) SS FastDirection','FontSize',12,'FontWeight','bold')
         
-      for k=1:numel(S.dmaxset) %using the 8 distances, it was set for zmaxset and still works for dmaxset
+      for k=1:numel(S.zmaxset) %using the 8 distances, it was set for zmaxset and still works for dmaxset
         %subplot(2,2,k+1)
         axes(ha(k+1)) % ran into a problem here, says exceeds the num of array elements(4)
         plot(P.cutm(:,1),P.cutm(:,2),'k',P.futm(:,1),P.futm(:,2),'w',L.X,L.Y,'ok'),axis equal,axis(P.R2)
@@ -254,10 +260,10 @@ setenv('PATH', [getenv('PATH') ':/usr/local/bin']);
       h.Label.FontSize=12;
       h.Label.FontWeight='bold';
 
-      % figfilename=sprintf('figs/supplementalfigs/map_FMSHmax_dmax%d',S.dmaxset(j));
-      % saveas(gcf,figfilename,'epsc2')
-    % end
-stop
+       figfilename=sprintf('figs/Mapfigures/map_FMSHmax_dmax%d',S.dmaxset(j));
+       saveas(gcf,figfilename,'epsc2')
+     end
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % HOW WELL DO BH FIT EACH OTHER IN THE GIVEN DISTANCE BINS?
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
