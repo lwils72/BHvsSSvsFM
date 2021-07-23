@@ -115,7 +115,7 @@ setenv('PATH', [getenv('PATH') ':/usr/local/bin']);
 
     iNorthRidgeEQ=find(floor(F.t)==datenum([1994 01 17]) & F.M>6);
     plot3(F.X(iNorthRidgeEQ),F.Y(iNorthRidgeEQ),-F.z(iNorthRidgeEQ),'k*','markersize',20,'linewidth',2)
-stop
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % SORT THE FM INVERSION SOLUTIONS INTO NEW ORDER TO MATCH THE CURRENT BH LIST
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -199,7 +199,7 @@ stop
       title(['dmax = ',num2str(S.dmaxset(j)),'km zmax=',num2str(S.zmaxset(k)),'km'])
          end
       end
-    
+    stop
   %
   % Plot and save maps of Borehole SHmax vs FM SHmax estimates for various criteria
   %  - we did a version of this for SSA 2019, but haven't with the latest results

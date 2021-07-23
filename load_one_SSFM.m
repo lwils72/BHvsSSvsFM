@@ -33,71 +33,71 @@ setenv('PATH', [getenv('PATH') ':/usr/local/bin']);
 % I believe this is what we are wanting to try to replicate?
 %
   % FILENAME='dats/LiPeng2017tableS1.csv'; %RAW SWS measurements (230k of them)
-  % FORMAT=['%s %s ',repmat('%f ',1,23),repmat('%s ',1,4),'%f %s ',repmat('%f ',1,4),'%s ',repmat('%f ',1,5)];
+   FORMAT=['%s %s ',repmat('%f ',1,23),repmat('%s ',1,4),'%f %s ',repmat('%f ',1,4),'%s ',repmat('%f ',1,5)];
   % [~,r]=system(['cat ',FILENAME,' | grep -v cant']);
   % C=textscan(r,FORMAT,'headerlines',1,'delimiter',',');
 
-  % FILENAME='dats/LiPeng2017tableS2.csv'; %HiQuality SWS measurements (90k of them)
-  % fid=fopen(FILENAME);
-  % C=textscan(fid,FORMAT,'headerlines',1,'delimiter',',');
-  % fclose(fid);
+   FILENAME='dats/LiPeng2017tableS2.csv'; %HiQuality SWS measurements (90k of them)
+   fid=fopen(FILENAME);
+   C=textscan(fid,FORMAT,'headerlines',1,'delimiter',',');
+   fclose(fid);
 
-  % S.eventid=C{1}; % e.g., 15199577.CE.11369.HN
-  % S.station=C{2}; % e.g., 11369
-  % S.stationlat=C{3}; % e.g., 33.037
-  % S.stationlon=C{4}; % e.g., -115.624
-  % S.cuspid=C{5}; % e.g., 15199577
-  % S.year=C{6}; % e.g., 2012
-  % S.doy_det=C{7}; % e.g., 239.803
-  % S.eventlat=C{8}; % e.g., 33.0091
-  % S.eventlon=C{9}; % e.g., -115.553
-  % S.dist_event2station=C{10}; % e.g., 7.27946
-  % S.eventdepth=C{11}; % e.g., 9.064
-  % S.eventmag=C{12}; % e.g., 3.95
-  % S.backaz=C{13}; % e.g., 115.173
-  % S.spol=C{14}; % e.g., 96.665
-  % S.Dspol=C{15}; % e.g., 6.090
-  % S.wbeg=C{16}; % e.g., 4.414999
-  % S.wend=C{17}; % e.g., 5.704518
-  % S.dist_ruap_km=C{18}; % e.g., 
-  % S.dist_ruap_deg=C{19}; % e.g., 
-  % S.SNR=C{20}; % e.g., 21.0769
-  % S.tlag=C{21}; % e.g., 0.282500
-  % S.Dtlag=C{22}; % e.g., 0.005625
-  % S.fast=C{23}; % e.g., -21
-  % S.Dfast=C{24}; % e.g., 7.250
-  % S.anginc=C{25}; % e.g., 37.8 
-  % S.anginc_corr=C{26}; % e.g., anginc_corr
-  % S.type_ini=C{27}; % e.g., ass_5_16
-  % S.time=C{28}; % e.g., Sep
-  % S.comment=C{29}; % e.g., comment
-  % S.nyquist=C{30}; % e.g., 50
-  % S.gradeABCNR=C{31}; % e.g., ACl
-  % S.filt_lo=C{32}; % e.g., 
-  % S.filt_HI=C{33}; % e.g., 
-  % S.spolfastdiff=C{34}; % e.g., 62.335
-  % S.bandang=C{35}; % e.g., -29.6008
-  % S.pickgrade=C{36}; % e.g., UNDEFINE
-  % S.lambdamax=C{37}; % e.g., 3.6068532
-  % S.ndf=C{38}; % e.g., 25
-  % S.lambda2_min=C{39}; % e.g., 0.2680662E+06
-  % S.ttime=C{40}; % e.g., 3.69
-  % S.maxfreq=C{41}; % e.g., 4.45822
+  Leq.eventid=C{1}; % e.g., 15199577.CE.11369.HN
+  Leq.station=C{2}; % e.g., 11369
+  Leq.stationlat=C{3}; % e.g., 33.037
+  Leq.stationlon=C{4}; % e.g., -115.624
+  Leq.cuspid=C{5}; % e.g., 15199577
+  Leq.year=C{6}; % e.g., 2012
+  Leq.doy_det=C{7}; % e.g., 239.803
+  Leq.eventlat=C{8}; % e.g., 33.0091
+  Leq.eventlon=C{9}; % e.g., -115.553
+  Leq.dist_event2station=C{10}; % e.g., 7.27946
+  Leq.eventdepth=C{11}; % e.g., 9.064
+  Leq.eventmag=C{12}; % e.g., 3.95
+  Leq.backaz=C{13}; % e.g., 115.173
+  Leq.spol=C{14}; % e.g., 96.665
+  Leq.Dspol=C{15}; % e.g., 6.090
+  Leq.wbeg=C{16}; % e.g., 4.414999
+  Leq.wend=C{17}; % e.g., 5.704518
+  Leq.dist_ruap_km=C{18}; % e.g., 
+  Leq.dist_ruap_deg=C{19}; % e.g., 
+  Leq.SNR=C{20}; % e.g., 21.0769
+  Leq.tlag=C{21}; % e.g., 0.282500
+  Leq.Dtlag=C{22}; % e.g., 0.005625
+  Leq.fast=C{23}; % e.g., -21
+  Leq.Dfast=C{24}; % e.g., 7.250
+  Leq.anginc=C{25}; % e.g., 37.8 
+  Leq.anginc_corr=C{26}; % e.g., anginc_corr
+  Leq.type_ini=C{27}; % e.g., ass_5_16
+  Leq.time=C{28}; % e.g., Sep
+  Leq.comment=C{29}; % e.g., comment
+  Leq.nyquist=C{30}; % e.g., 50
+  Leq.gradeABCNR=C{31}; % e.g., ACl
+  Leq.filt_lo=C{32}; % e.g., 
+  Leq.filt_HI=C{33}; % e.g., 
+  Leq.spolfastdiff=C{34}; % e.g., 62.335
+  Leq.bandang=C{35}; % e.g., -29.6008
+  Leq.pickgrade=C{36}; % e.g., UNDEFINE
+  Leq.lambdamax=C{37}; % e.g., 3.6068532
+  Leq.ndf=C{38}; % e.g., 25
+  Leq.lambda2_min=C{39}; % e.g., 0.2680662E+06
+  Leq.ttime=C{40}; % e.g., 3.69
+  Leq.maxfreq=C{41}; % e.g., 4.45822
 
 %
 % OK, to get them all loaded, just pull out what we want
 %
 
-  FILENAME='dats/LiPeng2017tableS1.csv'; %RAW SWS measurements (230k of them)
-  [~,r]=system(['cat ',FILENAME,' | grep -v cant | sed ''1d'' | awk -F, ''{print $4,$3,$9,$8,$11,$23}''']);
-  C=textscan(r,'%f %f %f %f %f %f');
-
-  S.stationlon=C{1}; % e.g., -115.624
-  S.stationlat=C{2}; % e.g., 33.037
-  S.eventlon=C{3}; % e.g., -115.553
-  S.eventlat=C{4}; % e.g., 33.0091
-  S.eventdepth=C{5}; % e.g., 9.064
-  S.fast=C{6}; % e.g., -21
+%   FILENAME='dats/LiPeng2017tableS1.csv'; %RAW SWS measurements (230k of them)
+%   [~,r]=system(['cat ',FILENAME,' | grep -v cant | sed ''1d'' | awk -F, ''{print $4,$3,$9,$8,$11,$23}''']);
+%   C=textscan(r,'%f %f %f %f %f %f');
+% 
+%   Leq.stationlon=C{1}; % e.g., -115.624
+%   Leq.stationlat=C{2}; % e.g., 33.037
+%   Leq.eventlon=C{3}; % e.g., -115.553
+%   Leq.eventlat=C{4}; % e.g., 33.0091
+%   Leq.eventdepth=C{5}; % e.g., 9.064
+%   Leq.fast=C{6}; % e.g., -21
      
 %
 % OK, now load the "summary" version
@@ -131,9 +131,64 @@ setenv('PATH', [getenv('PATH') ':/usr/local/bin']);
 %   REMEMBER- Shear wave windows: epicenter distance less than hypocenter depth.
 %
 
+% figure(99),clf,plot3(L.stationlon,L.stationlat,1:numel(L.station),'.')
+% used to pick specific station 
 
+  iOneSS=177 % to change which station 
+  OneSSname=L.station{iOneSS}; % JNH2 code for station
+  ieqOneSS=find(strcmp(Leq.station,OneSSname));
+  Leq.fast(ieqOneSS); % fast direction of those 20 eqs
+  L.FastDirection(iOneSS) 
+  
+%
+%   to use circ_mean need to convert angles to radians
+%
 
+% r2d(angle(mean(exp(d2r(L.FastDirection*2)*i))))/2
+% sum(cosd(L.FastDirection))=y
+% sum(sind(L.FastDirection))=x
+THEmean=atand(sum(sind(L.FastDirection)/sum(cosd(L.FastDirection)))) %atand(x/y)
+% THEmean=atand(sum(sind(L.FastDirection*2)/sum(cosd(L.FastDirection*2)))) %atand(x/y)  
 
+%
+%   Possibly generate histogram to show the 20 fast directions vs the mean
+%   plot various results for each of the pairs L(summary nums) vs Leq(all data)
+%   play around see what all fits and makes sense... 
+%   calculate the circular mean fast direction 
+%
 
+figure(20),clf
+histogram(Leq.fast(ieqOneSS),(-90:10:90));
+xlabel('Fast Direction Degrees')
+ylabel('Number of EQs pairs')
+title(['Histogram Fast Directions for station ',OneSSname])
+hold on
+plot(L.FastDirection(iOneSS)*[1 1],ylim)
 
-    
+%
+%   Only graphing the fast directions and the single mean 
+%
+
+% figure(61),clf
+% plot(L.FastDirection(iOneSS),'^','linewidth',1)
+% plot(Leq.fast,'^','linewidth',1)
+% axis equal,xlim([-30,120]),ylim([-90,90]),grid
+% xticks((-30:30:120)),yticks((-90:30:90))
+% 
+% figure(62),clf
+% plot(L.FastDirection(iOneSS),'^','linewidth',1)
+% plot(Leq.fast(iOneSS),'^','linewidth',1)
+% axis equal,xlim([-30,120]),ylim([-90,90]),grid
+% xticks((-30:30:120)),yticks((-90:30:90))
+% 
+%  figure(70),clf
+%  plot(L.FastDirection,Leq.fast(iOneSS),'^','linewidth',1)
+%   
+%  figure(71),clf
+%  plot(L.FastDirection,Leq.fast(iOneSS),'^','linewidth',1)
+% 
+% figure(80),clf
+% plot(Leq.stationlon,Leq.stationlat,'k^')
+% hold on, plot(L.X(:,1),L.Y(:,2),'-k')
+% scatter(Leq.eventlon,L.eventlat,5,Leq.eventdepth,'filled'),colorbar
+
