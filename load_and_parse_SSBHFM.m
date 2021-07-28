@@ -29,9 +29,9 @@ function [B,S,L,F,Regions,P]=load_and_parse_SSBHFM(BHinfile,FMinfile,SSinfile)
 % NAME THE FILES WE'LL BE LOADING IN BELOW (so they're easily changed later)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   % clear,tic
-  BHinfile='dats/Table_S1.csv';
-  FMinfile='dats/FM_subsets_asof_20210615.shmax';
-  SSinfile='dats/LiPeng2017tableS3.csv';
+  % BHinfile='dats/Table_S1.csv';  % Comment these out so that filename used is the one passed from the calling script
+  % FMinfile='dats/FM_subsets_asof_20210615.shmax';
+  % SSinfile='dats/LiPeng2017tableS3.csv';
 
   ZSTATSfile='dats/zstats_for_FM_subsets_asof_20200108.txt';
   NEQfile='dats/FM_subsets_asof_20200108.Neqdmax.mat';
@@ -72,10 +72,7 @@ function [B,S,L,F,Regions,P]=load_and_parse_SSBHFM(BHinfile,FMinfile,SSinfile)
     [L.X,L.Y]=ll2utm(L.stationlat,L.stationlon);
      L.X=L.X/1e3;
      L.Y=L.Y/1e3;
-     
-    L.FastDirection(find(L.FastDirection > 90))=L.FastDirection(find(L.FastDirection > 90))-180; % make boreholes [-90,90] to match FM SHmax
-  
-  
+       
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   %
   % 1b) Load the borehole SHmax observations
