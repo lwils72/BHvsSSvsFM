@@ -188,19 +188,19 @@ tic % start the clock to see how long the script takes to run
     xlabel('station number (LA region only)'),ylabel('Nmeasurements: should be # eqs at each station (but isnt)')
 
     iOneSS=16; % to change which station we're looking at
-    % for k=1:numel(L.X) % use this code if you want to loop over all stations and look at the map one at a time
-    %   iOneSS=k;        % use this if you want to loop
+     for k=1:numel(L.X) % use this code if you want to loop over all stations and look at the map one at a time
+       iOneSS=k;        % use this if you want to loop
 
     OneSSname=L.station{iOneSS}; % JNH2 code for station 177 (from the whole). PASA for station 86 (from just LA ones). 
     OneSSfast=L.FastDirection(iOneSS); % the fast direction
 
     ieqOneSS=find(strcmp(Leq.station,OneSSname)); % which eqs (from the high-quality list) were recorded at this station?
     Leq.fast(ieqOneSS); % fast direction of those 20 eqs (not stored here, just for our reference)
-    % Note: already I can tell there's something wrong.  According to LiPengTableS3, the agregate fast directino for 
+    % Note: already I can tell there's something wrong.  According to LiPengTableS3, the agregate fast direction for 
     %   station PASA has 18 measurements, but from LiPengTableS2 (the high quality ones), it only has one eq listed.
     %   Try the longer list from LiPengTableS3, see if there are 18 PASA eqs in that list...
 
-    ieqOneSS_all=find(strcmp(Leq_all.station,OneSSname)); % which eqs (from the high-quality list) were recorded at this station?
+    ieqOneSS_all=find(strcmp(Leq_all.station,OneSSname)); % which eqs (from the all-quality list) were recorded at this station?
     Leq_all.fast(ieqOneSS); % fast direction of those 20 eqs (not stored here, just for our reference)
     % Nope, this has 7 eqs, some are duplicated but still have different fast directions indicated...
     %  - so in what sense does PASA have 18 "measurements"?  No idea, and text gives no indication
@@ -208,7 +208,12 @@ tic % start the clock to see how long the script takes to run
     %    (no indication in tables or text that each eq corresponds to multiple measurements, e.g.)
     %  - OK, after trying several of these, the formula seems to be usually Nmeasurements = 2*Neq, and sometimes N > 2*Neq... 
     %    mysterious... but now we can move on, assuming "Nmeasurements" is unreliable...
-
+ 
+    ieqOneSS_shallow=find(strcmp(Leq_all.station,OneSSname)&(Leq.eventdepth<=5))%list of SS with only shallow eq
+    ieqOneSS_deep=find(strcmp(Leq_all.station,OneSSname)&(Leq.eventdepth>5))%list of SS with eq that are larger than 5km
+    
+    %stop
+    
     [Leq_all.eventlon(ieqOneSS_all),Leq_all.eventlat(ieqOneSS_all),Leq_all.eventdepth(ieqOneSS_all),Leq_all.eventmag(ieqOneSS_all),...
      Leq_all.fast(ieqOneSS_all),Leq_all.Dfast(ieqOneSS_all)]; %prints the eqs out so we can see them... when not semi-coloned
 
@@ -258,6 +263,58 @@ tic % start the clock to see how long the script takes to run
       polarplot([1 1]*deg2rad(L.FastDirection(iOneSS)),[-1 1]*max(rlim),'r','linewidth',1)
       title('high quality eqs')
       set(gca,'ThetaZeroLocation','top','ThetaDir','clockwise') % make axes degEofN, not degNofE
+      
+     figure(21),clf
+     subplot(211)
+      histogram(Leq_all.fast(ieqOneSS_shallow),binedges)
+      hold on
+      histogram(Leq.fast(ieqOneSS),binedges)
+      xlabel('Fast Direction Degrees')
+      ylabel('Number of SHALLOW EQs pairs')
+      title(['Histogram Fast Directions for station ',OneSSname])
+      plot(L.FastDirection(iOneSS)*[1 1],ylim,'k','linewidth',2)
+      legend('all eqs','high Q eqs','LiPeng meanfast','location','northwest')
+      xlim([-90,90])
+      xticks(-90:15:90)
+      grid
+    subplot(223)
+      polarhistogram(deg2rad(Leq_all.fast(ieqOneSS_shallow)),deg2rad(binedges),'facecolor','k');hold on
+      polarhistogram(deg2rad(Leq_all.fast(ieqOneSS_shallow))+pi,deg2rad(binedges)+pi,'facecolor','k'); % plot the data twice, for 180º symmetry
+      polarplot([1 1]*deg2rad(L.FastDirection(iOneSS)),[-1 1]*max(rlim),'r','linewidth',1)
+      title('all eqs')
+      set(gca,'ThetaZeroLocation','top','ThetaDir','clockwise') % make axes degEofN, not degNofE
+    subplot(224)
+      polarhistogram(deg2rad(Leq.fast(ieqOneSS)),deg2rad(binedges),'facecolor','k');hold on
+      polarhistogram(deg2rad(Leq.fast(ieqOneSS))+pi,deg2rad(binedges)+pi,'facecolor','k'); % plot the data twice, for 180º symmetry
+      polarplot([1 1]*deg2rad(L.FastDirection(iOneSS)),[-1 1]*max(rlim),'r','linewidth',1)
+      title('high quality eqs')
+      set(gca,'ThetaZeroLocation','top','ThetaDir','clockwise') % make axes degEofN, not degNofE
+      
+      figure(22),clf
+    subplot(211)
+      histogram(Leq_all.fast(ieqOneSS_deep),binedges)
+      hold on
+      histogram(Leq.fast(ieqOneSS),binedges)
+      xlabel('Fast Direction Degrees')
+      ylabel('Number of DEEP EQs pairs')
+      title(['Histogram Fast Directions for station ',OneSSname])
+      plot(L.FastDirection(iOneSS)*[1 1],ylim,'k','linewidth',2)
+      legend('all eqs','high Q eqs','LiPeng meanfast','location','northwest')
+      xlim([-90,90])
+      xticks(-90:15:90)
+      grid
+    subplot(223)
+      polarhistogram(deg2rad(Leq_all.fast(ieqOneSS_deep)),deg2rad(binedges),'facecolor','k');hold on
+      polarhistogram(deg2rad(Leq_all.fast(ieqOneSS_deep))+pi,deg2rad(binedges)+pi,'facecolor','k'); % plot the data twice, for 180º symmetry
+      polarplot([1 1]*deg2rad(L.FastDirection(iOneSS)),[-1 1]*max(rlim),'r','linewidth',1)
+      title('all eqs')
+      set(gca,'ThetaZeroLocation','top','ThetaDir','clockwise') % make axes degEofN, not degNofE
+    subplot(224)
+      polarhistogram(deg2rad(Leq.fast(ieqOneSS)),deg2rad(binedges),'facecolor','k');hold on
+      polarhistogram(deg2rad(Leq.fast(ieqOneSS))+pi,deg2rad(binedges)+pi,'facecolor','k'); % plot the data twice, for 180º symmetry
+      polarplot([1 1]*deg2rad(L.FastDirection(iOneSS)),[-1 1]*max(rlim),'r','linewidth',1)
+      title('high quality eqs')
+      set(gca,'ThetaZeroLocation','top','ThetaDir','clockwise') % make axes degEofN, not degNofE
 
   %
   % Calculate the mean fast direction from scratch, from the "all eqs" list of fast directions
@@ -269,7 +326,9 @@ tic % start the clock to see how long the script takes to run
   %    E.g., for station #38, their average is clearly not sensible...
   % 
   %
-    % define new funtions that will take the 360º or 180º wrapped circular mean of directional data
+    % define new funtions that will take the 360º or 180º wrapped circular
+    % mean of directional data, one line subroutine to repeat (inline
+    % define funtion)
     mean360= @(x) atan2d(mean(sind(x)),mean(cosd(x))); % our very own regular circular mean...
     mean180= @(x) atan2d(mean(sind(x*2)),mean(cosd(x*2)))/2; % adapted for 180º wrapping
     mean180weighted= @(x,y) atan2d(sum(sind(x.*y*2))/sum(y),sum(cosd(x.*y*2))/sum(y))/2; % adapted for 180º wrapping, and weights
@@ -285,8 +344,8 @@ tic % start the clock to see how long the script takes to run
       polarplot([1 1]*deg2rad(OurMeanFast),[-1 1]*max(rlim),'b','linewidth',1)
 
 
-    % pause % use these to end the loop started above, if you want to look at each station one at a time
-    % end
+     pause % use these to end the loop started above, if you want to look at each station one at a time
+     end
 
   %
   % OK, AT THIS POINT, we're pretty sure we're calculating the 180º circular mean correctly, but not getting their answer.
