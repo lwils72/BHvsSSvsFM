@@ -209,8 +209,8 @@ tic % start the clock to see how long the script takes to run
     %  - OK, after trying several of these, the formula seems to be usually Nmeasurements = 2*Neq, and sometimes N > 2*Neq... 
     %    mysterious... but now we can move on, assuming "Nmeasurements" is unreliable...
  
-    ieqOneSS_shallow=find(strcmp(Leq_all.station,OneSSname)&(Leq.eventdepth<=5))%list of SS with only shallow eq
-    ieqOneSS_deep=find(strcmp(Leq_all.station,OneSSname)&(Leq.eventdepth>5))%list of SS with eq that are larger than 5km
+    ieqOneSS_shallow=find(strcmp(Leq_all.station,OneSSname)&(Leq_all.eventdepth<=5)); %list of SS with only shallow eq
+    ieqOneSS_deep=find(strcmp(Leq_all.station,OneSSname)&(Leq_all.eventdepth>5));%list of SS with eq that are larger than 5km
     
     %stop
     
