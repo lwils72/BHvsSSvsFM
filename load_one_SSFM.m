@@ -187,7 +187,7 @@ tic % start the clock to see how long the script takes to run
     figure(98),clf,plot(1:numel(L.X),L.Nmeasurements,'.-'),grid
     xlabel('station number (LA region only)'),ylabel('Nmeasurements: should be # eqs at each station (but isnt)')
 
-    iOneSS=16; % to change which station we're looking at
+    %iOneSS=109; % to change which station we're looking at, run only one station to look at code quickly
      for k=1:numel(L.X) % use this code if you want to loop over all stations and look at the map one at a time
        iOneSS=k;        % use this if you want to loop
 
@@ -212,7 +212,6 @@ tic % start the clock to see how long the script takes to run
     ieqOneSS_shallow=find(strcmp(Leq_all.station,OneSSname)&(Leq_all.eventdepth<=5)); %list of SS with only shallow eq
     ieqOneSS_deep=find(strcmp(Leq_all.station,OneSSname)&(Leq_all.eventdepth>5));%list of SS with eq that are larger than 5km
     
-    %stop
     
     [Leq_all.eventlon(ieqOneSS_all),Leq_all.eventlat(ieqOneSS_all),Leq_all.eventdepth(ieqOneSS_all),Leq_all.eventmag(ieqOneSS_all),...
      Leq_all.fast(ieqOneSS_all),Leq_all.Dfast(ieqOneSS_all)]; %prints the eqs out so we can see them... when not semi-coloned
@@ -264,58 +263,6 @@ tic % start the clock to see how long the script takes to run
       title('high quality eqs')
       set(gca,'ThetaZeroLocation','top','ThetaDir','clockwise') % make axes degEofN, not degNofE
       
-     figure(21),clf
-     subplot(211)
-      histogram(Leq_all.fast(ieqOneSS_shallow),binedges)
-      hold on
-      histogram(Leq.fast(ieqOneSS),binedges)
-      xlabel('Fast Direction Degrees')
-      ylabel('Number of SHALLOW EQs pairs')
-      title(['Histogram Fast Directions for station ',OneSSname])
-      plot(L.FastDirection(iOneSS)*[1 1],ylim,'k','linewidth',2)
-      legend('all eqs','high Q eqs','LiPeng meanfast','location','northwest')
-      xlim([-90,90])
-      xticks(-90:15:90)
-      grid
-    subplot(223)
-      polarhistogram(deg2rad(Leq_all.fast(ieqOneSS_shallow)),deg2rad(binedges),'facecolor','k');hold on
-      polarhistogram(deg2rad(Leq_all.fast(ieqOneSS_shallow))+pi,deg2rad(binedges)+pi,'facecolor','k'); % plot the data twice, for 180º symmetry
-      polarplot([1 1]*deg2rad(L.FastDirection(iOneSS)),[-1 1]*max(rlim),'r','linewidth',1)
-      title('all eqs')
-      set(gca,'ThetaZeroLocation','top','ThetaDir','clockwise') % make axes degEofN, not degNofE
-    subplot(224)
-      polarhistogram(deg2rad(Leq.fast(ieqOneSS)),deg2rad(binedges),'facecolor','k');hold on
-      polarhistogram(deg2rad(Leq.fast(ieqOneSS))+pi,deg2rad(binedges)+pi,'facecolor','k'); % plot the data twice, for 180º symmetry
-      polarplot([1 1]*deg2rad(L.FastDirection(iOneSS)),[-1 1]*max(rlim),'r','linewidth',1)
-      title('high quality eqs')
-      set(gca,'ThetaZeroLocation','top','ThetaDir','clockwise') % make axes degEofN, not degNofE
-      
-      figure(22),clf
-    subplot(211)
-      histogram(Leq_all.fast(ieqOneSS_deep),binedges)
-      hold on
-      histogram(Leq.fast(ieqOneSS),binedges)
-      xlabel('Fast Direction Degrees')
-      ylabel('Number of DEEP EQs pairs')
-      title(['Histogram Fast Directions for station ',OneSSname])
-      plot(L.FastDirection(iOneSS)*[1 1],ylim,'k','linewidth',2)
-      legend('all eqs','high Q eqs','LiPeng meanfast','location','northwest')
-      xlim([-90,90])
-      xticks(-90:15:90)
-      grid
-    subplot(223)
-      polarhistogram(deg2rad(Leq_all.fast(ieqOneSS_deep)),deg2rad(binedges),'facecolor','k');hold on
-      polarhistogram(deg2rad(Leq_all.fast(ieqOneSS_deep))+pi,deg2rad(binedges)+pi,'facecolor','k'); % plot the data twice, for 180º symmetry
-      polarplot([1 1]*deg2rad(L.FastDirection(iOneSS)),[-1 1]*max(rlim),'r','linewidth',1)
-      title('all eqs')
-      set(gca,'ThetaZeroLocation','top','ThetaDir','clockwise') % make axes degEofN, not degNofE
-    subplot(224)
-      polarhistogram(deg2rad(Leq.fast(ieqOneSS)),deg2rad(binedges),'facecolor','k');hold on
-      polarhistogram(deg2rad(Leq.fast(ieqOneSS))+pi,deg2rad(binedges)+pi,'facecolor','k'); % plot the data twice, for 180º symmetry
-      polarplot([1 1]*deg2rad(L.FastDirection(iOneSS)),[-1 1]*max(rlim),'r','linewidth',1)
-      title('high quality eqs')
-      set(gca,'ThetaZeroLocation','top','ThetaDir','clockwise') % make axes degEofN, not degNofE
-
   %
   % Calculate the mean fast direction from scratch, from the "all eqs" list of fast directions
   % Compare to the L&P calculated directions and population... do they all make sense?
@@ -335,15 +282,51 @@ tic % start the clock to see how long the script takes to run
 
     OurMeanFast=mean180(Leq.fast(ieqOneSS));
     OurMeanFast_all=mean180(Leq_all.fast(ieqOneSS_all));
+    MeanFastShallow(k)=mean180(Leq_all.fast(ieqOneSS_shallow));
+    MeanFastDeep(k)=mean180(Leq_all.fast(ieqOneSS_deep));
 
-    OurMeanFast_all_weighted=mean180weighted(Leq_all.fast(ieqOneSS_all),Leq_all.tlag(ieqOneSS_all)); % maybe weight by time lag?
+    %OurMeanFast_all_weighted=mean180weighted(Leq_all.fast(ieqOneSS_all),Leq_all.tlag(ieqOneSS_all));
+    % maybe weight by time lag to repeat Li and Peng's results
 
     subplot(223)
       polarplot([1 1]*deg2rad(OurMeanFast_all),[-1 1]*max(rlim),'b','linewidth',1)
     subplot(224)
       polarplot([1 1]*deg2rad(OurMeanFast),[-1 1]*max(rlim),'b','linewidth',1)
 
+    %
+    %   Figures with polar histograms for each shallow and deep
+    %   earthquakes per seismic station 
+    %
+      
+    ieqOneSS_shallow=find(strcmp(Leq_all.station,OneSSname)&(Leq_all.eventdepth<=5)); %list of SS with only shallow eq
+    ieqOneSS_deep=find(strcmp(Leq_all.station,OneSSname)&(Leq_all.eventdepth>5));%list of SS with eq that are larger than 5km
+    
+    ieqOneSS_distSS=find(strcmp(Leq_all.station,OneSSname)&(Leq_all.dist_event2station<=30));%list of eqs that are 30km away
+    
+     figure(21),clf
+     subplot(211)
+      plot3(L.stationlon(iOneSS),L.stationlat(iOneSS),1:numel(L.station),'.k');hold on
+      scatter(Leq_all.eventlon(ieqOneSS_distSS),Leq_all.eventlat(ieqOneSS_distSS),5,Leq_all.eventdepth(ieqOneSS_distSS),'filled'),colorbar
+      view(2) % this sets the 3-D rotation view to be from above, the "x-y view"
+      hold on,plot(P.c(:,1),P.c(:,2),'k') % plot the coast line
+      axis(P.R3) % set the axis limits to focus on the LA area
+      title(['SS ',OneSSname,' colored by depth, with ',num2str(numel(ieqOneSS_all)),' earthquake(s)'])
+    subplot(223)
+      polarhistogram(deg2rad(Leq_all.fast(ieqOneSS_shallow)),deg2rad(binedges),'facecolor','k');hold on
+      polarhistogram(deg2rad(Leq_all.fast(ieqOneSS_shallow))+pi,deg2rad(binedges)+pi,'facecolor','k'); % plot the data twice, for 180º symmetry
+      polarplot([1 1]*deg2rad(L.FastDirection(iOneSS)),[-1 1]*max(rlim),'r','linewidth',1);hold on
+      polarplot([1 1]*deg2rad(OurMeanFast_all),[-1 1]*max(rlim),'b','linewidth',1)
+      title('shallow eqs')
+      set(gca,'ThetaZeroLocation','top','ThetaDir','clockwise') % make axes degEofN, not degNofE
+    subplot(224)
+      polarhistogram(deg2rad(Leq_all.fast(ieqOneSS_deep)),deg2rad(binedges),'facecolor','k');hold on
+      polarhistogram(deg2rad(Leq_all.fast(ieqOneSS_deep))+pi,deg2rad(binedges)+pi,'facecolor','k'); % plot the data twice, for 180º symmetry
+      polarplot([1 1]*deg2rad(L.FastDirection(iOneSS)),[-1 1]*max(rlim),'r','linewidth',1);hold on
+      polarplot([1 1]*deg2rad(OurMeanFast),[-1 1]*max(rlim),'b','linewidth',1)
+      title('deep eqs')
+      set(gca,'ThetaZeroLocation','top','ThetaDir','clockwise') % make axes degEofN, not degNofE
 
+      
      pause % use these to end the loop started above, if you want to look at each station one at a time
      end
 
@@ -404,4 +387,15 @@ stop
   % plot(Leq.stationlon,Leq.stationlat,'k^')
   % hold on, plot(L.X(:,1),L.Y(:,2),'-k')
   % scatter(Leq.eventlon,L.eventlat,5,Leq.eventdepth,'filled'),colorbar
+
+  %
+  % 180 circular difference used to compare our fast directions within the
+  % shallow and deep maps
+  %
+  
+%stacklocalPDFs.m:    daz = @(x,y) (mod(y-x+90,180)-90);  % Circular Difference
+%stacklocalPDFs.m:    rmsaz = @(x,y) sqrt(sum(daz(x,y).^2,'omitnan')./sum(~isnan(y))); % RMS of Circular Difference, ignores NaNs, works with arrays of column vectors
+%stacklocalPDFs.m:    %zBHvFM=abs(daz(S.SHmax,S.B_SHmax)); % Absolute Circular Difference of the Data
+%stacklocalPDFs.m:    L.SHmaxDiff=daz(L.SHmax1,L.SHmax2);
+
 
