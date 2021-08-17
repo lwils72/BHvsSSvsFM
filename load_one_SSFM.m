@@ -305,29 +305,33 @@ tic % start the clock to see how long the script takes to run
     
      figure(21),clf
      subplot(211)
-      plot3(L.stationlon(iOneSS),L.stationlat(iOneSS),1:numel(L.station),'.k');hold on
-      scatter(Leq_all.eventlon(ieqOneSS_distSS),Leq_all.eventlat(ieqOneSS_distSS),5,Leq_all.eventdepth(ieqOneSS_distSS),'filled'),colorbar
+      plot3(L.stationlon(iOneSS),L.stationlat(iOneSS),1:numel(L.station),'^k');hold on
+      scatter(Leq_all.eventlon(ieqOneSS_shallow),Leq_all.eventlat(ieqOneSS_shallow),20,Leq_all.eventdepth(ieqOneSS_shallow),'filled'),colorbar
+      scatter(Leq_all.eventlon(ieqOneSS_deep),Leq_all.eventlat(ieqOneSS_deep),20,Leq_all.eventdepth(ieqOneSS_deep),'filled'),colorbar
       view(2) % this sets the 3-D rotation view to be from above, the "x-y view"
-      hold on,plot(P.c(:,1),P.c(:,2),'k') % plot the coast line
+      hold on,plot(P.c(:,1),P.c(:,2),'k') % coast line
       axis(P.R3) % set the axis limits to focus on the LA area
+      caxis([2,20])
       title(['SS ',OneSSname,' colored by depth, with ',num2str(numel(ieqOneSS_all)),' earthquake(s)'])
     subplot(223)
       polarhistogram(deg2rad(Leq_all.fast(ieqOneSS_shallow)),deg2rad(binedges),'facecolor','k');hold on
       polarhistogram(deg2rad(Leq_all.fast(ieqOneSS_shallow))+pi,deg2rad(binedges)+pi,'facecolor','k'); % plot the data twice, for 180º symmetry
       polarplot([1 1]*deg2rad(L.FastDirection(iOneSS)),[-1 1]*max(rlim),'r','linewidth',1);hold on
-      polarplot([1 1]*deg2rad(OurMeanFast_all),[-1 1]*max(rlim),'b','linewidth',1)
+      polarplot([1 1]*deg2rad(MeanFastShallow(k)),[-1 1]*max(rlim),'b','linewidth',1)
       title('shallow eqs')
       set(gca,'ThetaZeroLocation','top','ThetaDir','clockwise') % make axes degEofN, not degNofE
     subplot(224)
       polarhistogram(deg2rad(Leq_all.fast(ieqOneSS_deep)),deg2rad(binedges),'facecolor','k');hold on
       polarhistogram(deg2rad(Leq_all.fast(ieqOneSS_deep))+pi,deg2rad(binedges)+pi,'facecolor','k'); % plot the data twice, for 180º symmetry
       polarplot([1 1]*deg2rad(L.FastDirection(iOneSS)),[-1 1]*max(rlim),'r','linewidth',1);hold on
-      polarplot([1 1]*deg2rad(OurMeanFast),[-1 1]*max(rlim),'b','linewidth',1)
+      polarplot([1 1]*deg2rad(MeanFastDeep(k)),[-1 1]*max(rlim),'b','linewidth',1)
       title('deep eqs')
       set(gca,'ThetaZeroLocation','top','ThetaDir','clockwise') % make axes degEofN, not degNofE
 
+      figfilename=sprintf('figs/Maphistograms/map_fastdirhistograms_SS_%s',OneSSname);
+       saveas(gcf,figfilename,'epsc2')
       
-     pause % use these to end the loop started above, if you want to look at each station one at a time
+     %pause % use these to end the loop started above, if you want to look at each station one at a time
      end
 
   %
