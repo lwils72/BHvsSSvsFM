@@ -199,7 +199,7 @@ setenv('PATH', [getenv('PATH') ':/usr/local/bin']);
       title(['dmax = ',num2str(S.dmaxset(j)),'km zmax=',num2str(S.zmaxset(k)),'km'])
          end
       end
-    stop
+    
   %
   % Plot and save maps of Borehole SHmax vs FM SHmax estimates for various criteria
   %  - we did a version of this for SSA 2019, but haven't with the latest results
@@ -260,8 +260,8 @@ setenv('PATH', [getenv('PATH') ':/usr/local/bin']);
       h.Label.FontSize=12;
       h.Label.FontWeight='bold';
 
-       figfilename=sprintf('figs/Mapfigures/map_FMSHmax_dmax%d',S.dmaxset(j));
-       saveas(gcf,figfilename,'epsc2')
+       %figfilename=sprintf('figs/Mapfigures/map_FMSHmax_dmax%d',S.dmaxset(j));
+       %saveas(gcf,figfilename,'epsc2')
      end
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
