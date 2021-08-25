@@ -261,20 +261,21 @@ tic % start the clock to see how long the script takes to run
          %
          % 180 circular difference used to compare our fast directions within the
          % shallow and deep maps
-         %
-         
+    %
         daz = @(x,y) (mod(y-x+90,180)-90);  % Circular Difference
         rmsaz = @(x,y) sqrt(sum(daz(x,y).^2,'omitnan')./sum(~isnan(y))); % RMS of Circular Difference, ignores NaNs, works with arrays of column vectors
         %zBHvFM=abs(daz(S.SHmax,S.B_SHmax)); % Absolute Circular Difference of the Data
         L.SHmaxDiff=daz(L.SHmax1,L.SHmax2);
      
+      [ha,pos]=tight_subplot(2,2,0.05,0.15,0.05); % this just helps it be a nicer looking journal figure
+       axes(ha(1))
          subplot(2,2,5),
          plot(P.cutm(:,1),P.cutm(:,2),'k',P.futm(:,1),P.futm(:,2),'w',L.X,L.Y,'ok'),axis equal,axis(P.R2)
          hold on,
-         plot([L.X-sc*sind(L.SHmaxDiff(k)),L.X+sc*sind(L.SHmaxDiff)]',[L.Y-sc*cosd(L.SHmaxDiff(k)),L.Y+sc*cosd(L.SHmaxDiff(k))]','k','linewidth',2)
+         plot([L.X-sc*sind(L.SHmaxDiff),L.X+sc*sind(L.SHmaxDiff)]',[L.Y-sc*cosd(L.SHmaxDiff),L.Y+sc*cosd(L.SHmaxDiff)]','k','linewidth',2)
          scatter(L.X,L.Y,20,L.SHmaxDiff(ieqOneSS_deep),'filled'),colorbar
          xticks([]),yticks([])
-         text(227,3737,'a) SS Circular Mean','FontSize',12,'FontWeight','bold')
+         text(227,3737,'a) SS MeanFastDeep','FontSize',12,'FontWeight','bold')
 
     %
     % 180 circular difference used to compare our fast directions within the
