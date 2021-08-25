@@ -213,22 +213,33 @@ tic % start the clock to see how long the script takes to run
     sc=10; %how many km long should the SHmax stick be?
 
     figure(1),clf
-    set(gcf,'Position',[100,400,665,440])
-        subplot(2,2,1),
+    %set(gcf,'Position',[100,400,665,440])
+        subplot(3,3,1),
         plot(P.cutm(:,1),P.cutm(:,2),'k',P.futm(:,1),P.futm(:,2),'w',L.X,L.Y,'ok'),axis equal,axis(P.R2)
         hold on,
         plot([L.X-sc*sind(MeanFastDeep),L.X+sc*sind(MeanFastDeep)]',[L.Y-sc*cosd(MeanFastDeep),L.Y+sc*cosd(MeanFastDeep)]','k','linewidth',2)
         scatter(L.X,L.Y,20,MeanFastDeep,'filled'),colorbar
         xticks([]),yticks([])
+        caxis([-90,90])
         text(227,3737,'a) SS MeanFastDeep','FontSize',12,'FontWeight','bold')
        
-        subplot(2,2,2),
+        subplot(3,3,2),
         plot(P.cutm(:,1),P.cutm(:,2),'k',P.futm(:,1),P.futm(:,2),'w',L.X,L.Y,'ok'),axis equal,axis(P.R2)
         hold on,
         plot([L.X-sc*sind(MeanFastShallow),L.X+sc*sind(MeanFastShallow)]',[L.Y-sc*cosd(MeanFastShallow),L.Y+sc*cosd(MeanFastShallow)]','k','linewidth',2)
         scatter(L.X,L.Y,20,MeanFastShallow,'filled'),colorbar
         xticks([]),yticks([])
+        caxis([-90,90])
         text(227,3737,'a) SS MeanFastShallow','FontSize',12,'FontWeight','bold')
+        
+        subplot(3,3,3),
+        plot(P.cutm(:,1),P.cutm(:,2),'k',P.futm(:,1),P.futm(:,2),'w',L.X,L.Y,'ok'),axis equal,axis(P.R2)
+        hold on,
+        plot([L.X-sc*sind(L.FastDirection),L.X+sc*sind(L.FastDirection)]',[L.Y-sc*cosd(L.FastDirection),L.Y+sc*cosd(L.FastDirection)]','k','linewidth',2)
+        scatter(L.X,L.Y,20,L.FastDirection,'filled'),colorbar
+        xticks([]),yticks([])
+        caxis([-90,90])
+        text(227,3737,'a) SS MeanFastAll','FontSize',12,'FontWeight','bold')
         
      %
      % stations colored by fmshmax fast directions 
@@ -238,21 +249,32 @@ tic % start the clock to see how long the script takes to run
      izmaxshallow=find(S.zmaxset==5);
      izmaxdeep=find(S.zmaxset==999);
      
-        subplot(2,2,3),
+        subplot(3,3,4),
         plot(P.cutm(:,1),P.cutm(:,2),'k',P.futm(:,1),P.futm(:,2),'w',L.X,L.Y,'ok'),axis equal,axis(P.R2)
         hold on,
-        plot([L.X-sc*sind(L.FMSHmax(k)),L.X+sc*sind(L.FMSHmax(k))]',[L.Y-sc*cosd(L.FMSHmax(k)),L.Y+sc*cosd(L.FMSHmax(k))]','k','linewidth',2)
+        plot([L.X-sc*sind(S.SHmax(:,idmax,izmaxdeep)),L.X+sc*sind(S.SHmax(:,idmax,izmaxdeep))]',[L.Y-sc*cosd(S.SHmax(:,idmax,izmaxdeep)),L.Y+sc*cosd(S.SHmax(:,idmax,izmaxdeep))]','k','linewidth',2)
         scatter(L.X,L.Y,20,S.SHmax(:,idmax,izmaxdeep),'filled'),colorbar
         xticks([]),yticks([])
-        text(227,3737,'a) FMSHmax Deep','FontSize',12,'FontWeight','bold')
+        caxis([-90,90])
+        text(227,3737,'b) FMSHmax Deep','FontSize',12,'FontWeight','bold')
 
-        subplot(2,2,4),
+        subplot(3,3,5),
         plot(P.cutm(:,1),P.cutm(:,2),'k',P.futm(:,1),P.futm(:,2),'w',L.X,L.Y,'ok'),axis equal,axis(P.R2)
         hold on,
-        plot([L.X-sc*sind(L.FMSHmax(k)),L.X+sc*sind(L.FMSHmax(k))]',[L.Y-sc*cosd(L.FMSHmax(k)),L.Y+sc*cosd(L.FMSHmax(k))]','k','linewidth',2)
+        plot([L.X-sc*sind(S.SHmax(:,idmax,izmaxshallow)),L.X+sc*sind(S.SHmax(:,idmax,izmaxshallow))]',[L.Y-sc*cosd(S.SHmax(:,idmax,izmaxshallow)),L.Y+sc*cosd(S.SHmax(:,idmax,izmaxshallow))]','k','linewidth',2)
         scatter(L.X,L.Y,20,S.SHmax(:,idmax,izmaxshallow),'filled'),colorbar
         xticks([]),yticks([])
-        text(227,3737,'a) FMSHmax Shallow','FontSize',12,'FontWeight','bold')
+        caxis([-90,90])
+        text(227,3737,'b) FMSHmax Shallow','FontSize',12,'FontWeight','bold')
+        
+        subplot(3,3,6),
+        plot(P.cutm(:,1),P.cutm(:,2),'k',P.futm(:,1),P.futm(:,2),'w',L.X,L.Y,'ok'),axis equal,axis(P.R2)
+        hold on,
+        plot([L.X-sc*sind(S.SHmax(:,idmax,izmaxdeep)),L.X+sc*sind(S.SHmax(:,idmax,izmaxdeep))]',[L.Y-sc*cosd(S.SHmax(:,idmax,izmaxdeep)),L.Y+sc*cosd(S.SHmax(:,idmax,izmaxdeep))]','k','linewidth',2)
+        scatter(L.X,L.Y,20,S.SHmax(:,idmax,izmaxdeep),'filled'),colorbar
+        xticks([]),yticks([])
+        caxis([-90,90])
+        text(227,3737,'b) FMSHmax All','FontSize',12,'FontWeight','bold')
         
      %   
      % stations colored by the circular mean difference 
@@ -266,16 +288,34 @@ tic % start the clock to see how long the script takes to run
         daz = @(x,y) (mod(y-x+90,180)-90);  % Circular Difference
         rmsaz = @(x,y) sqrt(sum(daz(x,y).^2,'omitnan')./sum(~isnan(y))); % RMS of Circular Difference, ignores NaNs, works with arrays of column vectors
         %zBHvFM=abs(daz(S.SHmax,S.B_SHmax)); % Absolute Circular Difference of the Data
-        L.SHmaxDiff=daz(L.SHmax1,L.SHmax2);
+        FMFDDiffDeep=daz(MeanFastDeep,S.SHmax(:,idmax,izmaxdeep));
+        FMFDDiffShallow=daz(MeanFastShallow,S.SHmax(:,idmax,izmaxshallow));
+        FMFDDiffAll=daz(L.FastDirection,S.SHmax(:,idmax,izmaxdeep));
      
-         subplot(2,2,5),
+         subplot(3,3,7),
          plot(P.cutm(:,1),P.cutm(:,2),'k',P.futm(:,1),P.futm(:,2),'w',L.X,L.Y,'ok'),axis equal,axis(P.R2)
          hold on,
-         plot([L.X-sc*sind(L.SHmaxDiff(k)),L.X+sc*sind(L.SHmaxDiff)]',[L.Y-sc*cosd(L.SHmaxDiff(k)),L.Y+sc*cosd(L.SHmaxDiff(k))]','k','linewidth',2)
-         scatter(L.X,L.Y,20,L.SHmaxDiff(ieqOneSS_deep),'filled'),colorbar
+         scatter(L.X,L.Y,20,abs(FMFDDiffDeep),'filled'),colorbar
          xticks([]),yticks([])
-         text(227,3737,'a) SS Circular Mean','FontSize',12,'FontWeight','bold')
+         caxis([0,90])
+         text(227,3737,'c) SS CD Deep','FontSize',12,'FontWeight','bold')
 
+         subplot(3,3,8),
+         plot(P.cutm(:,1),P.cutm(:,2),'k',P.futm(:,1),P.futm(:,2),'w',L.X,L.Y,'ok'),axis equal,axis(P.R2)
+         hold on,
+         scatter(L.X,L.Y,20,abs(FMFDDiffShallow),'filled'),colorbar
+         xticks([]),yticks([])
+         caxis([0,90])
+         text(227,3737,'c) SS CD Shallow','FontSize',12,'FontWeight','bold')
+         
+         subplot(3,3,9),
+         plot(P.cutm(:,1),P.cutm(:,2),'k',P.futm(:,1),P.futm(:,2),'w',L.X,L.Y,'ok'),axis equal,axis(P.R2)
+         hold on,
+         scatter(L.X,L.Y,20,abs(FMFDDiffAll),'filled'),colorbar
+         xticks([]),yticks([])
+         caxis([0,90])
+         text(227,3737,'c) SS CD All','FontSize',12,'FontWeight','bold')
+         
     %
     % 180 circular difference used to compare our fast directions within the
     % shallow and deep maps
@@ -287,10 +327,30 @@ tic % start the clock to see how long the script takes to run
 %stacklocalPDFs.m:    L.SHmaxDiff=daz(L.SHmax1,L.SHmax2);
     
     
-
-       
-       
-       
+    %
+    %   Plotting BH and SWS data to try to compare the heterogenious data 
+    %
+    
+    figure(2),clf
+        subplot(2,1,1)
+        plot(P.cutm(:,1),P.cutm(:,2),'k',P.futm(:,1),P.futm(:,2),'w',L.X,L.Y,'ok'),axis equal,axis(P.R2)
+        hold on,
+        plot([L.X-sc*sind(L.FastDirection),L.X+sc*sind(L.FastDirection)]',[L.Y-sc*cosd(L.FastDirection),L.Y+sc*cosd(L.FastDirection)]','k','linewidth',2)
+        scatter(L.X,L.Y,20,(L.FastDirection),'filled'),colorbar
+        xticks([]),yticks([])
+        caxis([-90,90])
+        text(227,3737,'a) Li&Peng FastDirections','FontSize',12,'FontWeight','bold')
+        
+        subplot(2,1,2)
+        plot(P.cutm(:,1),P.cutm(:,2),'k',P.futm(:,1),P.futm(:,2),'w',L.X,L.Y,'ok'),axis equal,axis(P.R2)
+        hold on,
+        plot([B.X-sc*sind(B.SHmax),B.X+sc*sind(B.SHmax)]',[B.Y-sc*cosd(B.SHmax),B.Y+sc*cosd(B.SHmax)]','k','linewidth',2)
+        scatter(B.X,B.Y,20,(B.SHmax),'filled'),colorbar
+        xticks([]),yticks([])
+        caxis([-90,90])
+        text(227,3737,'b) BH SHmax','FontSize',12,'FontWeight','bold')
+        
+        stop
        
        
     
