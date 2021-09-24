@@ -221,7 +221,7 @@ tic % start the clock to see how long the script takes to run
         scatter(L.X,L.Y,20,MeanFastDeep,'filled'),colorbar
         xticks([]),yticks([])
         caxis([-90,90])
-        text(227,3737,'a) SS MeanFastDeep','FontSize',12,'FontWeight','bold')
+        %text(227,3737,'a) SWS Mean Fast Direction - Deep EQS','FontSize',12,'FontWeight','bold')
        
         subplot(3,3,2),
         plot(P.cutm(:,1),P.cutm(:,2),'k',P.futm(:,1),P.futm(:,2),'w',L.X,L.Y,'ok'),axis equal,axis(P.R2)
@@ -230,7 +230,7 @@ tic % start the clock to see how long the script takes to run
         scatter(L.X,L.Y,20,MeanFastShallow,'filled'),colorbar
         xticks([]),yticks([])
         caxis([-90,90])
-        text(227,3737,'a) SS MeanFastShallow','FontSize',12,'FontWeight','bold')
+        %text(227,3737,'b) SWS Mean Fast Direction - Shallow EQS','FontSize',12,'FontWeight','bold')
         
         subplot(3,3,3),
         plot(P.cutm(:,1),P.cutm(:,2),'k',P.futm(:,1),P.futm(:,2),'w',L.X,L.Y,'ok'),axis equal,axis(P.R2)
@@ -256,7 +256,7 @@ tic % start the clock to see how long the script takes to run
         scatter(L.X,L.Y,20,S.SHmax(:,idmax,izmaxdeep),'filled'),colorbar
         xticks([]),yticks([])
         caxis([-90,90])
-        text(227,3737,'b) FMSHmax Deep','FontSize',12,'FontWeight','bold')
+        %text(227,3737,'c) FM SHmax - All EQs','FontSize',12,'FontWeight','bold')
 
         subplot(3,3,5),
         plot(P.cutm(:,1),P.cutm(:,2),'k',P.futm(:,1),P.futm(:,2),'w',L.X,L.Y,'ok'),axis equal,axis(P.R2)
@@ -265,7 +265,7 @@ tic % start the clock to see how long the script takes to run
         scatter(L.X,L.Y,20,S.SHmax(:,idmax,izmaxshallow),'filled'),colorbar
         xticks([]),yticks([])
         caxis([-90,90])
-        text(227,3737,'b) FMSHmax Shallow','FontSize',12,'FontWeight','bold')
+        %text(227,3737,'d) FM SHmax - Shallow EQs','FontSize',12,'FontWeight','bold')
         
         subplot(3,3,6),
         plot(P.cutm(:,1),P.cutm(:,2),'k',P.futm(:,1),P.futm(:,2),'w',L.X,L.Y,'ok'),axis equal,axis(P.R2)
@@ -315,7 +315,7 @@ tic % start the clock to see how long the script takes to run
          xticks([]),yticks([])
          caxis([0,90])
          text(227,3737,'c) SS CD All','FontSize',12,'FontWeight','bold')
-         
+         stop
     %
     % 180 circular difference used to compare our fast directions within the
     % shallow and deep maps
@@ -339,7 +339,7 @@ tic % start the clock to see how long the script takes to run
         scatter(L.X,L.Y,20,(L.FastDirection),'filled'),colorbar
         xticks([]),yticks([])
         caxis([-90,90])
-        text(227,3737,'a) Li&Peng FastDirections','FontSize',12,'FontWeight','bold')
+        text(227,3737,'a) SWS FastDirections','FontSize',18,'FontWeight','bold')
         
         subplot(2,1,2)
         plot(P.cutm(:,1),P.cutm(:,2),'k',P.futm(:,1),P.futm(:,2),'w',L.X,L.Y,'ok'),axis equal,axis(P.R2)
@@ -348,7 +348,7 @@ tic % start the clock to see how long the script takes to run
         scatter(B.X,B.Y,20,(B.SHmax),'filled'),colorbar
         xticks([]),yticks([])
         caxis([-90,90])
-        text(227,3737,'b) BH SHmax','FontSize',12,'FontWeight','bold')
+        text(227,3737,'b) BH SHmax','FontSize',18,'FontWeight','bold')
         
         stop
        

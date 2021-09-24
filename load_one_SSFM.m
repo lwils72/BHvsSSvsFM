@@ -328,8 +328,8 @@ tic % start the clock to see how long the script takes to run
       title('deep eqs')
       set(gca,'ThetaZeroLocation','top','ThetaDir','clockwise') % make axes degEofN, not degNofE
 
-      figfilename=sprintf('figs/Maphistograms/map_fastdirhistograms_SS_%s',OneSSname);
-       saveas(gcf,figfilename,'epsc2')
+      %figfilename=sprintf('figs/Maphistograms/map_fastdirhistograms_SS_%s',OneSSname);
+       %saveas(gcf,figfilename,'epsc2')
       
      %pause % use these to end the loop started above, if you want to look at each station one at a time
      end
