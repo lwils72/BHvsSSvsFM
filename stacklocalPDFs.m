@@ -133,13 +133,13 @@ setenv('PATH', [getenv('PATH') ':/usr/local/bin']);
 %          S.z50th=S.z50th(L.id,:,:);          % [57x16x3 double]
 %          S.z75th=S.z75th(L.id,:,:);          % [57x16x3 double]
 %          S.z95th=S.z95th(L.id,:,:);          % [57x16x3 double]
-%         S.B_SHmax=S.B_SHmax(B.id,:,:);      % [57x16x3 double] out on l&p
-%        S.B_dSHmax=S.B_dSHmax(B.id,:,:);     % [57x16x3 double]
-%        S.L_SHmax=S.F_SHmax(L.id,:,:);        % [57x16x3 double]
-%       S.L_dSHmax=S.F_dSHmax(L.id,:,:);       % [57x16x3 double]
-%           S.Neq=S.Neq(B.id,:,:);            % [57x16x3 double]
-%        S.d10th=S.d10th(B.id,:);            % [57x3 double]
-%         S.d20th=S.d20th(B.id,:);            % [57x3 double]
+%          S.B_SHmax=S.B_SHmax(B.id,:,:);      % [57x16x3 double] out on l&p
+%          S.B_dSHmax=S.B_dSHmax(B.id,:,:);     % [57x16x3 double]
+%          S.L_SHmax=S.F_SHmax(L.id,:,:);        % [57x16x3 double]
+%          S.L_dSHmax=S.F_dSHmax(L.id,:,:);       % [57x16x3 double]
+%          S.Neq=S.Neq(B.id,:,:);            % [57x16x3 double]
+%          S.d10th=S.d10th(B.id,:);            % [57x3 double]
+%          S.d20th=S.d20th(B.id,:);            % [57x3 double]
 
   %
   % Do the comparison and plot the raw results: 
@@ -191,7 +191,7 @@ setenv('PATH', [getenv('PATH') ':/usr/local/bin']);
       axis equal,xlim([-90,90]),ylim([-90,90]),grid
       xticks((-90:30:90)),yticks((-90:30:90))
       %legend('boreholes with breakouts','seismic stations with SWS fast directions',...
-       % 'location','northwest','FontSize',12,'FontWeight','bold')
+      %'location','northwest','FontSize',12,'FontWeight','bold')
       xlabel('SWS Fast Direction')
       ylabel('FMSHmax')
       %text(-88,-85,'d) ','FontSize',12,'FontWeight','bold')

@@ -221,7 +221,7 @@ tic % start the clock to see how long the script takes to run
         scatter(L.X,L.Y,20,MeanFastDeep,'filled'),colorbar
         xticks([]),yticks([])
         caxis([-90,90])
-        %text(227,3737,'a) SWS Mean Fast Direction - Deep EQS','FontSize',12,'FontWeight','bold')
+        text(227,3737,'a) SWS Mean Fast Direction - Deep EQS','FontSize',12,'FontWeight','bold')
        
         subplot(3,3,2),
         plot(P.cutm(:,1),P.cutm(:,2),'k',P.futm(:,1),P.futm(:,2),'w',L.X,L.Y,'ok'),axis equal,axis(P.R2)
@@ -230,7 +230,7 @@ tic % start the clock to see how long the script takes to run
         scatter(L.X,L.Y,20,MeanFastShallow,'filled'),colorbar
         xticks([]),yticks([])
         caxis([-90,90])
-        %text(227,3737,'b) SWS Mean Fast Direction - Shallow EQS','FontSize',12,'FontWeight','bold')
+        text(227,3737,'b) SWS Mean Fast Direction - Shallow EQS','FontSize',12,'FontWeight','bold')
         
         subplot(3,3,3),
         plot(P.cutm(:,1),P.cutm(:,2),'k',P.futm(:,1),P.futm(:,2),'w',L.X,L.Y,'ok'),axis equal,axis(P.R2)
@@ -256,7 +256,7 @@ tic % start the clock to see how long the script takes to run
         scatter(L.X,L.Y,20,S.SHmax(:,idmax,izmaxdeep),'filled'),colorbar
         xticks([]),yticks([])
         caxis([-90,90])
-        %text(227,3737,'c) FM SHmax - All EQs','FontSize',12,'FontWeight','bold')
+        text(227,3737,'c) FM SHmax - All EQs','FontSize',12,'FontWeight','bold')
 
         subplot(3,3,5),
         plot(P.cutm(:,1),P.cutm(:,2),'k',P.futm(:,1),P.futm(:,2),'w',L.X,L.Y,'ok'),axis equal,axis(P.R2)
@@ -265,7 +265,7 @@ tic % start the clock to see how long the script takes to run
         scatter(L.X,L.Y,20,S.SHmax(:,idmax,izmaxshallow),'filled'),colorbar
         xticks([]),yticks([])
         caxis([-90,90])
-        %text(227,3737,'d) FM SHmax - Shallow EQs','FontSize',12,'FontWeight','bold')
+        text(227,3737,'d) FM SHmax - Shallow EQs','FontSize',12,'FontWeight','bold')
         
         subplot(3,3,6),
         plot(P.cutm(:,1),P.cutm(:,2),'k',P.futm(:,1),P.futm(:,2),'w',L.X,L.Y,'ok'),axis equal,axis(P.R2)
