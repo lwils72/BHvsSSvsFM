@@ -211,8 +211,8 @@ tic % start the clock to see how long the script takes to run
  
     ieqOneSS_shallow=find(strcmp(Leq_all.station,OneSSname)&(Leq_all.eventdepth<=5)); %list of SS with only shallow eq
     ieqOneSS_deep=find(strcmp(Leq_all.station,OneSSname)&(Leq_all.eventdepth>5));%list of SS with eq that are larger than 5km
-    %ifmOneSS_shallow=find(strcmp(S.SHmax,OneSSname)&(S.zmaxset<=5));%list of Focal Mechanisms shallow
-    %ifmOneSS_deep=find(strcmp(S.SHmax,OneSSname)&(S.zmaxset>5));%list of Focal Mechanisms deep 
+    ifmOneSS_shallow=find(strcmp(S.SHmax,OneSSname)&(S.zmaxset<=5));%list of Focal Mechanisms shallow
+    ifmOneSS_deep=find(strcmp(S.SHmax,OneSSname)&(S.zmaxset>5));%list of Focal Mechanisms deep 
     
     
     [Leq_all.eventlon(ieqOneSS_all),Leq_all.eventlat(ieqOneSS_all),Leq_all.eventdepth(ieqOneSS_all),Leq_all.eventmag(ieqOneSS_all),...
@@ -286,8 +286,8 @@ tic % start the clock to see how long the script takes to run
     OurMeanFast_all=mean180(Leq_all.fast(ieqOneSS_all));
     MeanFastShallow(k)=mean180(Leq_all.fast(ieqOneSS_shallow));
     MeanFastDeep(k)=mean180(Leq_all.fast(ieqOneSS_deep));
-    % FMShallow(k)=mean180(S.SHmax(ifmOneSS_shallow));
-    % FMDeep(k)=mean180(S.SHmax(ifmOneSS_deep));
+    FMShallow(k)=mean180(S.SHmax(ifmOneSS_shallow));
+    FMDeep(k)=mean180(S.SHmax(ifmOneSS_deep));
     
 
     %OurMeanFast_all_weighted=mean180weighted(Leq_all.fast(ieqOneSS_all),Leq_all.tlag(ieqOneSS_all));
@@ -305,10 +305,10 @@ tic % start the clock to see how long the script takes to run
       
     ieqOneSS_shallow=find(strcmp(Leq_all.station,OneSSname)&(Leq_all.eventdepth<=5)); %list of SS with only shallow eq
     ieqOneSS_deep=find(strcmp(Leq_all.station,OneSSname)&(Leq_all.eventdepth>5));%list of SS with eq that are larger than 5km
-    % FMSHmaxDeep=find(strcmp(S.SHmax,OneSSname)&(S.zmaxset<=999));%list of FM for deep zmax
-    % FMSHmaxShallow=find(strcmp(S.SHmax,OneSSname)&(S.zmaxset<=5));%list of FM for shallow zmax
+    FMSHmaxDeep=find(strcmp(S.SHmax,OneSSname)&(S.zmaxset<=999));%list of FM for deep zmax
+    FMSHmaxShallow=find(strcmp(S.SHmax,OneSSname)&(S.zmaxset<=5));%list of FM for shallow zmax
     
-    % ieqOneSS_distFM=find(strcmp(S.SHmax,OneSSname)&(S.dmaxset<=30)); %list of fms that are 30km away
+    ieqOneSS_distFM=find(strcmp(S.SHmax,OneSSname)&(S.dmaxset<=30)); %list of fms that are 30km away
     ieqOneSS_distSS=find(strcmp(Leq_all.station,OneSSname)&(Leq_all.dist_event2station<=30));%list of eqs that are 30km away
     
      figure(21),clf
@@ -325,16 +325,16 @@ tic % start the clock to see how long the script takes to run
       polarhistogram(deg2rad(Leq_all.fast(ieqOneSS_shallow)),deg2rad(binedges),'facecolor','k');hold on
       polarhistogram(deg2rad(Leq_all.fast(ieqOneSS_shallow))+pi,deg2rad(binedges)+pi,'facecolor','k'); % plot the data twice, for 180º symmetry
       polarplot([1 1]*deg2rad(L.FastDirection(iOneSS)),[-1 1]*max(rlim),'r','linewidth',1);hold on
-      polarplot([1 1]*deg2rad(MeanFastShallow(k)),[-1 1]*max(rlim),'b','linewidth',1)
-      polarplot([1 1]*deg2rad(FMSHmaxShallow(k)),[-1 1]*max(rlim),'g','linewidth',1) %[128,242,139]/25
+      polarplot([1 1]*deg2rad(MeanFastShallow(k)),[-1 1]*max(rlim),'b','linewidth',1);
+      polarplot([1 1]*deg2rad(FMShallow(k)),[-1 1]*max(rlim),'[128,242,139]/25','linewidth',1); %[128,242,139]/25 gave me an error code initially using this specific color commands 
       title('shallow eqs')
       set(gca,'ThetaZeroLocation','top','ThetaDir','clockwise') % make axes degEofN, not degNofE
     subplot(224)
       polarhistogram(deg2rad(Leq_all.fast(ieqOneSS_deep)),deg2rad(binedges),'facecolor','k');hold on
       polarhistogram(deg2rad(Leq_all.fast(ieqOneSS_deep))+pi,deg2rad(binedges)+pi,'facecolor','k'); % plot the data twice, for 180º symmetry
       polarplot([1 1]*deg2rad(L.FastDirection(iOneSS)),[-1 1]*max(rlim),'r','linewidth',1);hold on
-      polarplot([1 1]*deg2rad(MeanFastDeep(k)),[-1 1]*max(rlim),'b','linewidth',1)
-      polarplot([1 1]*deg2rad(FMSHmaxDeep(k)),[-1 1]*max(rlim),'g','linewidth',1) %[27,165,46]/255
+      polarplot([1 1]*deg2rad(MeanFastDeep(k)),[-1 1]*max(rlim),'b','linewidth',1);
+      polarplot([1 1]*deg2rad(FMDeep(k)),[-1 1]*max(rlim),'g','linewidth',1); %[27,165,46]/255 gave me an error code intially using this specific color  
       title('deep eqs')
       set(gca,'ThetaZeroLocation','top','ThetaDir','clockwise') % make axes degEofN, not degNofE
 
