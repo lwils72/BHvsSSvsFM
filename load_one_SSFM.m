@@ -211,9 +211,17 @@ tic % start the clock to see how long the script takes to run
  
     ieqOneSS_shallow=find(strcmp(Leq_all.station,OneSSname)&(Leq_all.eventdepth<=5)); %list of SS with only shallow eq
     ieqOneSS_deep=find(strcmp(Leq_all.station,OneSSname)&(Leq_all.eventdepth>5));%list of SS with eq that are larger than 5km
-    ifmOneSS_shallow=find(strcmp(S.SHmax,OneSSname)&(S.zmaxset<=5));%list of Focal Mechanisms shallow
-    ifmOneSS_deep=find(strcmp(S.SHmax,OneSSname)&(S.zmaxset>5));%list of Focal Mechanisms deep 
+   % ifmOneSS_shallow=find(strcmp(S.SSset,OneSSname)&(S.zmaxset<=5));%list of Focal Mechanisms shallow
+   % ifmOneSS_deep=find(strcmp(S.SSset,OneSSname)&(S.zmaxset>5));%list of Focal Mechanisms deep 
+    %ieqFMSHmaxDeep=find(strcmp(S.SHmax,OneSSname)&(S.dmaxset<30));%list of FM for deep zmax
+    %ieqFMSHmaxShallow=find(strcmp(S.SHmax,OneSSname)&(S.dmaxset<30));%list of FM for shallow zmax
     
+    jdmax=find(S.dmaxset==6);
+    kzmaxDeep=find(S.zmaxset==999);%list of FM for deep zmax
+    kzmaxShallow=find(S.zmaxset==5);%list of FM for shallow zmax
+
+    OneFMSHmaxDeep=S.SHmax(iOneSS,jdmax,kzmaxDeep); 
+    OneFMSHmaxShallow=S.SHmax(iOneSS,jdmax,kzmaxShallow);
     
     [Leq_all.eventlon(ieqOneSS_all),Leq_all.eventlat(ieqOneSS_all),Leq_all.eventdepth(ieqOneSS_all),Leq_all.eventmag(ieqOneSS_all),...
      Leq_all.fast(ieqOneSS_all),Leq_all.Dfast(ieqOneSS_all)]; %prints the eqs out so we can see them... when not semi-coloned
@@ -286,8 +294,8 @@ tic % start the clock to see how long the script takes to run
     OurMeanFast_all=mean180(Leq_all.fast(ieqOneSS_all));
     MeanFastShallow(k)=mean180(Leq_all.fast(ieqOneSS_shallow));
     MeanFastDeep(k)=mean180(Leq_all.fast(ieqOneSS_deep));
-    FMShallow(k)=mean180(S.SHmax(ifmOneSS_shallow));
-    FMDeep(k)=mean180(S.SHmax(ifmOneSS_deep));
+   % FMShallow(k)=mean180(S.SHmax(ifmOneSS_shallow));
+   % FMDeep(k)=mean180(S.SHmax(ifmOneSS_deep));
     
 
     %OurMeanFast_all_weighted=mean180weighted(Leq_all.fast(ieqOneSS_all),Leq_all.tlag(ieqOneSS_all));
@@ -303,12 +311,8 @@ tic % start the clock to see how long the script takes to run
     %   earthquakes per seismic station 
     %
       
-    ieqOneSS_shallow=find(strcmp(Leq_all.station,OneSSname)&(Leq_all.eventdepth<=5)); %list of SS with only shallow eq
-    ieqOneSS_deep=find(strcmp(Leq_all.station,OneSSname)&(Leq_all.eventdepth>5));%list of SS with eq that are larger than 5km
-    FMSHmaxDeep=find(strcmp(S.SHmax,OneSSname)&(S.zmaxset<=999));%list of FM for deep zmax
-    FMSHmaxShallow=find(strcmp(S.SHmax,OneSSname)&(S.zmaxset<=5));%list of FM for shallow zmax
     
-    ieqOneSS_distFM=find(strcmp(S.SHmax,OneSSname)&(S.dmaxset<=30)); %list of fms that are 30km away
+    %ieqOneSS_distFM=find(strcmp(S.SHmax,OneSSname)&(S.dmaxset<=30)); %list of fms that are 30km away
     ieqOneSS_distSS=find(strcmp(Leq_all.station,OneSSname)&(Leq_all.dist_event2station<=30));%list of eqs that are 30km away
     
      figure(21),clf
@@ -325,23 +329,73 @@ tic % start the clock to see how long the script takes to run
       polarhistogram(deg2rad(Leq_all.fast(ieqOneSS_shallow)),deg2rad(binedges),'facecolor','k');hold on
       polarhistogram(deg2rad(Leq_all.fast(ieqOneSS_shallow))+pi,deg2rad(binedges)+pi,'facecolor','k'); % plot the data twice, for 180º symmetry
       polarplot([1 1]*deg2rad(L.FastDirection(iOneSS)),[-1 1]*max(rlim),'r','linewidth',1);hold on
-      polarplot([1 1]*deg2rad(MeanFastShallow(k)),[-1 1]*max(rlim),'b','linewidth',1);
-      polarplot([1 1]*deg2rad(FMShallow(k)),[-1 1]*max(rlim),'g','linewidth',1); %[128,242,139]/25 gave me an error code initially using this specific color commands 
+      polarplot([1 1]*deg2rad(MeanFastShallow(k)),[-1 1]*max(rlim),'color',[8,197,255]/255,'linewidth',1);
+      polarplot([1 1]*deg2rad(OneFMSHmaxShallow),[-1 1]*max(rlim),'color',[62,249,6]/255,'linewidth',1);  
       title('shallow eqs')
       set(gca,'ThetaZeroLocation','top','ThetaDir','clockwise') % make axes degEofN, not degNofE
     subplot(224)
       polarhistogram(deg2rad(Leq_all.fast(ieqOneSS_deep)),deg2rad(binedges),'facecolor','k');hold on
       polarhistogram(deg2rad(Leq_all.fast(ieqOneSS_deep))+pi,deg2rad(binedges)+pi,'facecolor','k'); % plot the data twice, for 180º symmetry
       polarplot([1 1]*deg2rad(L.FastDirection(iOneSS)),[-1 1]*max(rlim),'r','linewidth',1);hold on
-      polarplot([1 1]*deg2rad(MeanFastDeep(k)),[-1 1]*max(rlim),'b','linewidth',1);
-      polarplot([1 1]*deg2rad(FMDeep(k)),[-1 1]*max(rlim),'g','linewidth',1); %[27,165,46]/255 gave me an error code intially using this specific color  
+      polarplot([1 1]*deg2rad(MeanFastDeep(k)),[-1 1]*max(rlim),'color',[33,55,255]/255,'linewidth',1);
+      polarplot([1 1]*deg2rad(OneFMSHmaxDeep),[-1 1]*max(rlim),'color',[17,125,32]/255,'linewidth',1); %[27,165,46]/255 possibly make this one darker green  
       title('deep eqs')
       set(gca,'ThetaZeroLocation','top','ThetaDir','clockwise') % make axes degEofN, not degNofE
-
-      %figfilename=sprintf('figs/Maphistograms/map_fastdirhistograms_SS_%s',OneSSname);
-       %saveas(gcf,figfilename,'epsc2')
       
-     pause % use these to end the loop started above, if you want to look at each station one at a time
+     % creating a grid in UTM km
+	[YBH,YSS]=meshgrid(B.Y,L.Y);
+	[XBH,XSS]=meshgrid(B.X,L.X);
+	
+	% plot check to visualize data
+% 	figure(6);clf;
+% 	subplot(221); imagesc(XSS); colorbar;
+% 	subplot(222); imagesc(XBH); colorbar;
+% 	subplot(223); imagesc(YSS); colorbar;
+% 	subplot(224); imagesc(YBH); colorbar;
+
+	% takes the x and y position of each station to calculate the closest corresponding station
+	D=sqrt((XBH-XSS).^2+(YBH-YSS).^2);
+
+	% plot check
+% 	figure(7); clf;
+% 	imagesc(D); colorbar;
+
+	% uses the minimum distance of each borehole relative to a seismic station to create
+	% cell arrays with distance and index
+	%[mindistance,imindistance]=min(D);
+    
+    icloseBH=find(D(k,:)<5);
+    %plot(B.SHmax(icloseBH))
+    for iBHnum=1:numel(icloseBH)
+    
+        figure(21)
+        
+            subplot(211)
+                %scatter(B.X,B.Y,50,B.SHmax,'filled','markeredgecolor','k'),csym(90),colormap(cpolar),hold on
+                %plot([B.X-sc*sind(B.SHmax),B.X+sc*sind(B.SHmax)]',[B.Y-sc*cosd(B.SHmax),B.Y+sc*cosd(B.SHmax)]','k','linewidth',2)
+                %scatter(B.X,B.Y,50,B.SHmax,'filled','markeredgecolor','k'),csym(90),colormap(cpolar),
+                 
+            subplot(223)
+                polarplot([1 1]*deg2rad(B.SHmax(icloseBH(iBHnum))),[-1 1]*max(rlim),'color',[182,94,249]/255,'linewidth',1);
+                %scatter(B.Y(icloseBH(iBHnum)),B.X(icloseBH(iBHnum)),20,(B.SHmax(icloseBH(iBHnum))),'color',[182,94,249]/255,'linewidth',1);
+            subplot(224)
+                polarplot([1 1]*deg2rad(B.SHmax(icloseBH(iBHnum))),[-1 1]*max(rlim),'color',[182,94,249]/255,'linewidth',1);
+                %scatter(B.Y(icloseBH(iBHnum)),B.X(icloseBH(iBHnum)),20,(B.SHmax(icloseBH(iBHnum))),'color',[182,94,249]/255,'linewidth',1);
+    end
+        
+        
+
+	% plots CRMS station with color representing index of closest GPS station
+	%figure(8); clf;
+	%scatter(X,Y,50,icloseBH,'filled'); colorbar;
+
+	%figure(9); clf;
+	%scatter(X,Y,50,mindistance,'filled'); colorbar; 
+     
+     %figfilename=sprintf('figs/Maphistograms/map_fastdirhistograms_SS_%s',OneSSname);
+       %saveas(gcf,figfilename,'epsc2')
+    
+     %pause % use these to end the loop started above, if you want to look at each station one at a time
      end
 
   %
