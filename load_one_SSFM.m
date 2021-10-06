@@ -364,16 +364,15 @@ tic % start the clock to see how long the script takes to run
 	% cell arrays with distance and index
 	%[mindistance,imindistance]=min(D);
     
-    icloseBH=find(D(k,:)<5);
+    icloseBH=find(D(k,:)<6);
     %plot(B.SHmax(icloseBH))
     for iBHnum=1:numel(icloseBH)
     
         figure(21)
         
             subplot(211)
-                %scatter(B.X,B.Y,50,B.SHmax,'filled','markeredgecolor','k'),csym(90),colormap(cpolar),hold on
-                %plot([B.X-sc*sind(B.SHmax),B.X+sc*sind(B.SHmax)]',[B.Y-sc*cosd(B.SHmax),B.Y+sc*cosd(B.SHmax)]','k','linewidth',2)
-                %scatter(B.X,B.Y,50,B.SHmax,'filled','markeredgecolor','k'),csym(90),colormap(cpolar),
+                plot((B.x(icloseBH(iBHnum))),(B.y(icloseBH(iBHnum))),'k*');
+                %plot((B.X(icloseBH(iBHnum)))-sc*sind(B.SHmax(icloseBH(iBHnum))),(B.X(icloseBH(iBHnum)))+sc*sind(B.SHmax(icloseBH(iBHnum))))',((B.Y(icloseBH(iBHnum)))-sc*cosd(B.SHmax(icloseBH(iBHnum))),(B.Y(icloseBH(iBHnum)))+sc*cosd(B.SHmax(icloseBH(iBHnum)))','k','linewidth',2); %#ok<*NOPTS>
                  
             subplot(223)
                 polarplot([1 1]*deg2rad(B.SHmax(icloseBH(iBHnum))),[-1 1]*max(rlim),'color',[182,94,249]/255,'linewidth',1);
@@ -392,8 +391,8 @@ tic % start the clock to see how long the script takes to run
 	%figure(9); clf;
 	%scatter(X,Y,50,mindistance,'filled'); colorbar; 
      
-     %figfilename=sprintf('figs/Maphistograms/map_fastdirhistograms_SS_%s',OneSSname);
-       %saveas(gcf,figfilename,'epsc2')
+     figfilename=sprintf('figs/Maphistograms/map_fastdirhistograms_SS_%s',OneSSname);
+       saveas(gcf,figfilename,'epsc2')
     
      %pause % use these to end the loop started above, if you want to look at each station one at a time
      end
