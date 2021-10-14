@@ -13,6 +13,8 @@ tic % start the clock to see how long the script takes to run
     BHinfile='dats/Table_S1.csv';
     FMinfile='dats/FM_subsets_asof_20210615.shmax';
     SSinfile='dats/LiPeng2017tableS3.csv';
+    Q=load('dats/allCAfaults.MATLAB.dat');
+    Q2=load('dats/CFM5_preferred_traces.lonLat');
     [B,S,L,F,Regions,P]=load_and_parse_SSBHFM(BHinfile,FMinfile,SSinfile);
     
   %
@@ -318,6 +320,8 @@ tic % start the clock to see how long the script takes to run
      figure(21),clf
      subplot(211)
       plot3(L.stationlon(iOneSS),L.stationlat(iOneSS),1:numel(L.station),'^k');hold on
+      plot(Q(:,1),Q(:,2));
+      plot(Q2(:,1),Q2(:,2));
       scatter(Leq_all.eventlon(ieqOneSS_shallow),Leq_all.eventlat(ieqOneSS_shallow),20,Leq_all.eventdepth(ieqOneSS_shallow),'filled'),colorbar
       scatter(Leq_all.eventlon(ieqOneSS_deep),Leq_all.eventlat(ieqOneSS_deep),20,Leq_all.eventdepth(ieqOneSS_deep),'filled'),colorbar
       view(2) % this sets the 3-D rotation view to be from above, the "x-y view"
